@@ -1,40 +1,31 @@
 package model;
 
 public abstract class Veiculo {
-    private String marca;
-    private String modelo;
-    private String placa;
-    private Cliente dono;
+    protected String marca;
+    protected String modelo;
+    protected String placa;
 
-    public Veiculo(String marca, String modelo, String placa, Cliente dono){
+    public Veiculo(String marca, String modelo, String placa){
         this.marca = marca;
         this.modelo = modelo;
         this.placa = placa;
-        this.dono = dono;
     }
 
     public abstract boolean pronto();
 
     public abstract double getTaxaAdicional();
 
-    public String getMarca(){
-        return this.marca;
-    }
+    public String getMarca(){return this.marca;}
+    public void setMarca(String marca){this.marca = marca;}
 
-    public String getModelo() {
-        return this.modelo;
-    }
+    public String getModelo() {return this.modelo;}
+    public void setModelo(String modelo){this.modelo = modelo;}
 
-    public String getPlaca(){
-        return this.placa;
-    }
-
-    public Cliente getDono(){
-        return this.dono;
-    }
+    public String getPlaca(){return this.placa;}
+    public void setPlaca(String placa){this.placa = placa;}
 
     @Override
     public String toString(){
-        return "--- Veículo ---\nMarca: " + getMarca() + "\nModelo: " + getModelo() + "\nPlaca: " + getPlaca() + "\nDono: " + getDono();
+        return "--- Veículo ---\nMarca: " + getMarca() + "\nModelo: " + getModelo() + "\nPlaca: " + getPlaca();
     }    
 }

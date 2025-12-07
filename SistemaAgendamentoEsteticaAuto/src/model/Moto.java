@@ -3,14 +3,18 @@ package model;
 public class Moto extends Veiculo{
     private int cilindradas;
     
-    public Moto(String marca, String modelo, String placa, Cliente dono, int cilindradas){
-        super(marca, modelo, placa, dono);
+    public Moto(String marca, String modelo, String placa, int cilindradas){
+        super(marca, modelo, placa);
         this.cilindradas = cilindradas;
     }
 
-    public int getCilindradas(){
-        return this.cilindradas;
+    public Moto(String marca, String modelo, String placa){
+        super(marca, modelo, placa);
+        this.cilindradas = 160;
     }
+
+    public int getCilindradas(){return this.cilindradas;}
+    public void setCilindradas(int cilindradas){this.cilindradas = cilindradas;}
 
     @Override
     public String toString(){
