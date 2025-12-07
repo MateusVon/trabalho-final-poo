@@ -26,6 +26,10 @@ public class Pagamento {
     public double getValor(){return this.valor;}
     public void setValor(double valor){this.valor = valor;}
 
+    public void confirmarPagamento(){
+        this.status = StatusPagamento.PAGO;
+    }
+
     @Override
     public String toString(){
         return "--- Pagamento ---\n" + "Valor: R$" + String.format("%.2f", valor) + "\nForma de Pagamento: " + formaPagamento + "\nStatus: " + status + "\n";
