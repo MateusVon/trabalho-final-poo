@@ -1,10 +1,35 @@
 package dao;
 
-public class pagamentoDAO{
+import java.util.List;
 
-    // varios codigo
+import model.Pagamento;
 
-    public void seila(){
-        
+public class pagamentoDAO implements IDAO<Pagamento>{
+
+    private static final String ARQUIVO = "pagamentos.txt";
+
+    public boolean salvar(Pagamento pagamento){
+
+        return true;
     }
+
+    public List<Pagamento> listar() {
+        throw new UnsupportedOperationException("Unimplemented method 'listar'");
+    }
+
+    public boolean atualizar(Pagamento pagamento){
+        return true;
+    }
+
+
+    public boolean deletar(int id){
+        return true;
+    }
+
+    public Pagamento buscarPorId(int id){
+        return null;
+    }
+
+
+    
 }
