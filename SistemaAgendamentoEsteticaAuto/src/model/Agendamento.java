@@ -12,7 +12,7 @@ public class Agendamento {
   private Cliente cliente;
   private List<Servicos> servicos;
 
-  public Agendamento(int id, LocalDate prize, LocalTime horario, Cliente cliente) {
+  public Agendamento(int id, LocalDate prazo, LocalTime horario, Cliente cliente) {
     this.id = id;
     this.prazo = prazo;
     this.horario = horario;
