@@ -4,14 +4,15 @@ public abstract class Veiculo {
     protected String marca;
     protected String modelo;
     protected String placa;
+    protected int id;
+
+    public Veiculo(){}
 
     public Veiculo(String marca, String modelo, String placa){
         this.marca = marca;
         this.modelo = modelo;
         this.placa = placa;
     }
-
-    public abstract boolean pronto();
 
     public abstract double getTaxaAdicional();
 
@@ -22,10 +23,15 @@ public abstract class Veiculo {
     public void setModelo(String modelo){this.modelo = modelo;}
 
     public String getPlaca(){return this.placa;}
-    public void setPlaca(String placa){this.placa = placa;}
+    public void setPlaca(String placa){this.placa = placa.toUpperCase();}
+
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}    
 
     @Override
     public String toString(){
-        return "--- Veículo ---\nMarca: " + getMarca() + "\nModelo: " + getModelo() + "\nPlaca: " + getPlaca();
-    }    
+        return "--- Veículo ---\nID: "+ id + "\nMarca: " + getMarca() + "\nModelo: " + getModelo() + "\nPlaca: " + getPlaca();
+    }
+
+    
 }
