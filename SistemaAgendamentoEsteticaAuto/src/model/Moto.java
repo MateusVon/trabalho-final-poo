@@ -18,13 +18,9 @@ public class Moto extends Veiculo{
 
     @Override
     public String toString(){
-        return super.toString() + " (Moto " + getCilindradas() + "cc)";
+        return super.toString() + " | Tipo: Moto (" + getCilindradas() + "cc)";
     }
-
-    public boolean pronto(){
-        return true;
-    }
-
+    
     // Metodo para calcular a taxa adicional de acordo com o tamanho da moto
     public double getTaxaAdicional(){
         if(this.getCilindradas() > 1000){

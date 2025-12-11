@@ -1,7 +1,7 @@
 package model;
 
 public class Carro extends Veiculo{
-    private int categoria; // 1 - Hatch, 2 - Sedan, 3 - SUV, 4 - Camionete
+    private int categoria; // 1 - Hatch, 2 - Sedan, 3 - SUV, 4 - Camionete  (TROCAR PARA ENUM)
     
     public Carro(String marca, String modelo, String placa, int categoria){
         super(marca, modelo, placa);
@@ -18,11 +18,7 @@ public class Carro extends Veiculo{
 
     @Override
     public String toString(){
-       return super.toString() + " (Carro)";
-    }
-
-    public boolean pronto(){
-        return true;
+       return super.toString() + " | Tipo: Carro (Cat: " + categoria + ")";
     }
 
     // Metodo que calcula a taxa adicional de acordo com o tamanho do carro
