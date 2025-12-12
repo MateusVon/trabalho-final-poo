@@ -4,14 +4,18 @@ public abstract class Veiculo {
   protected String marca;
   protected String modelo;
   protected String placa;
+  protected boolean pronto;
 
   public Veiculo(String marca, String modelo, String placa) {
     this.marca = marca;
     this.modelo = modelo;
     this.placa = placa;
+    this.pronto = false;
   }
 
-  public abstract boolean pronto();
+  public abstract boolean getPronto();
+  
+  public abstract void setPronto();
 
   public abstract double getTaxaAdicional();
 

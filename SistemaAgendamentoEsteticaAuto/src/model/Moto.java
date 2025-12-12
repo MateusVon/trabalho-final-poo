@@ -13,6 +13,15 @@ public class Moto extends Veiculo {
     this.cilindradas = 160;
   }
 
+  @Override
+  public boolean getPronto() {
+      return this.pronto;
+  }
+
+  public void setPronto(){
+      this.pronto = true;
+  }
+
   public int getCilindradas() {
     return this.cilindradas;
   }
@@ -24,10 +33,6 @@ public class Moto extends Veiculo {
   @Override
   public String toString() {
     return super.toString() + " (Moto " + getCilindradas() + "cc)";
-  }
-
-  public boolean pronto() {
-    return true;
   }
 
   // Metodo para calcular a taxa adicional de acordo com o tamanho da moto

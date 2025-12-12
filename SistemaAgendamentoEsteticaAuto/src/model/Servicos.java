@@ -31,7 +31,14 @@ public class Servicos {
         this.preco = 300.00;
         this.descricao = "Película adesiva de poliéster aplicada nos vidros do carro, que oferece privacidade, conforto térmico (bloqueando calor e raios UV/infravermelhos), redução de ofuscamento e segurança ao dificultar o estilhaçamento do vidro";
         break;
-
+      case DESCONTAMINACAO_PINTURA:
+        this.preco = 650.00;
+        this.descricao = "Uso de produtos especiais para remover partículas de ferro, piche e fuligem que ficam incrustadas na superfície e não saem na lavagem comum.";
+        break;
+      case RENOVACAO_ESTOFADOS:
+        this.preco = 235.00;
+        this.descricao = "Conjunto de processos técnicos voltados para a conservação, restauração e proteção dos assentos e revestimentos internos do veículo.";
+        break;
     }
   }
 

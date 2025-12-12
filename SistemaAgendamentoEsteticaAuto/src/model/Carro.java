@@ -26,8 +26,13 @@ public class Carro extends Veiculo {
     return super.toString() + " (Carro)";
   }
 
-  public boolean pronto() {
-    return true;
+  @Override
+  public boolean getPronto() {
+      return this.pronto;
+  }
+
+  public void setPronto(){
+      this.pronto = true;
   }
 
   // Metodo que calcula a taxa adicional de acordo com o tamanho do carro
