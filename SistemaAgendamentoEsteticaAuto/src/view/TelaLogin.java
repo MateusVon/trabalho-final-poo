@@ -1,0 +1,79 @@
+package view;
+
+import javax.swing.*; // Importa tudo do Swing (telas, botões)
+import java.awt.*; // Importa cores e fontes
+
+public class TelaLogin extends JFrame{
+    // Declarando componentes
+    private JLabel lblLogo;
+    private JLabel lblUsuario;
+    private JTextField txtUsuario;
+    private JLabel lblSenha;
+    private JPasswordField txtSenha;
+    private JLabel lblSemConta;
+    private JButton btnCadastrar;
+    private JButton btnEntrar;
+
+
+    // Construtor para montar a tela
+    public TelaLogin(){
+        // Configurações da Janela
+        super("Tela de Login"); // Título da janela
+        setSize(400, 350); // Largura 400px, Altura 350
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Fecha o programa quando fecha a janela 
+        setResizable(false); // Impede o usuario de mudar o tamanho da janela
+        setLocationRelativeTo(null); // Centraliza a janela na tela do computador
+        setLayout(null);
+        getContentPane().setBackground(Color.decode("#34495e"));
+        
+        // Configurando os Componentes
+
+        // Logo
+        lblLogo = new JLabel("EDS Estética Automotiva");
+        lblLogo.setFont(new Font("Arial", Font.BOLD, 16));
+        lblLogo.setBounds(100,20,200,30); // Tamanho da logo
+
+        // Campo Usuario
+        lblUsuario = new JLabel("Usuário");
+        lblUsuario.setBounds(50,80,80,25); // Posição do Texto
+
+        txtUsuario = new JTextField();
+        txtUsuario.setBounds(100,80,200,25); // Posição da caixa de escrever
+
+        // Campo senha
+        lblSenha = new JLabel("Senha");
+        lblSenha.setBounds(50,130,80,25);
+
+        txtSenha = new JPasswordField();
+        txtSenha.setBounds(100,130,200,25);
+
+        // Texto
+        lblSemConta = new JLabel("Não possui conta?");
+        lblSemConta.setFont(new Font("Arial", Font.PLAIN, 10));
+        lblSemConta.setBounds(50,180,150,20);
+
+        // Botões
+        btnCadastrar = new JButton("Cadastrar");
+        btnCadastrar.setBounds(50,210,130,40);
+        btnCadastrar.setBackground(Color.WHITE);
+        
+        btnEntrar = new JButton("Entrar");
+        btnEntrar.setBounds(200,210,130,40);
+        btnEntrar.setBackground(new Color(173, 216, 230));
+
+        add(lblLogo);
+        add(lblUsuario);
+        add(txtUsuario);
+        add(lblSenha);
+        add(txtSenha);
+        add(lblSemConta);
+        add(btnCadastrar);
+        add(btnEntrar);
+        setVisible(true);
+
+    }
+    public static void main(String[] args) {
+        new TelaLogin();
+        
+    }
+}
