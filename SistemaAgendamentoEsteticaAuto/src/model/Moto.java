@@ -1,7 +1,8 @@
 package model;
 
-public class Moto extends Veiculo {
+public class Moto extends Veiculo implements DefinicoesServicos {
   private int cilindradas;
+  private TiposDeServicos servicos;
 
   public Moto(String marca, String modelo, String placa, int cilindradas) {
     super(marca, modelo, placa);
@@ -35,11 +36,33 @@ public class Moto extends Veiculo {
     return super.toString() + " (Moto " + getCilindradas() + "cc)";
   }
 
-  // Metodo para calcular a taxa adicional de acordo com o tamanho da moto
-  public double getTaxaAdicional() {
-    if (this.getCilindradas() > 1000) {
-      return 15.00;
+
+  @Override
+  public double calcularPrecoEspecifico() {
+      if(this.cilindradas<1000){
+        return 0.75;
+      }
+      return 1;
+  }
+
+  @Override
+  public int calcularPrazoEstimado() {
+    switch (servicos) {
+      case LAVAGEM_SIMPLES:
+        return 1;
+      case LAVAGEM_DETALHADA:
+        return 1;
+      case DESCONTAMINACAO_PINTURA:
+        return 3;
+      case PPF:
+        return 2;
+      case POLIMENTO_TECNICO:
+        return 2;
+      case RENOVACAO_ESTOFADOS:
+        return 3;
+      default:
+        break;
     }
-    return 0.0;
+    return 0;
   }
 }

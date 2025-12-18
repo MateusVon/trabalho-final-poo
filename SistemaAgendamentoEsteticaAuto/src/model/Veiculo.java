@@ -17,7 +17,6 @@ public abstract class Veiculo {
   
   public abstract void setPronto();
 
-  public abstract double getTaxaAdicional();
 
   public String getMarca() {
     return this.marca;
