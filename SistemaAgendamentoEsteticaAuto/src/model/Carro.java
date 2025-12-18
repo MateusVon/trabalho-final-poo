@@ -1,24 +1,21 @@
 package model;
 
 public class Carro extends Veiculo implements DefinicoesServicos {
-  private int categoria; // 1 - Hatch, 2 - Sedan, 3 - SUV, 4 - Camionete
+  private CategoriaCarro categoria;
+  private TiposDeServicos servicos; // 1 - Hatch, 2 - Sedan, 3 - SUV, 4 - Camionete
 
-  public Carro(String marca, String modelo, String placa, int categoria) {
+  public Carro(String marca, String modelo, String placa, CategoriaCarro categoria) {
     super(marca, modelo, placa);
     this.categoria = categoria;
   }
 
-  public Carro(String marca, String modelo, String placa) {
-    super(marca, modelo, placa);
-    this.categoria = 1; // Categoria default é Hatch
-  }
+  // public Carro(String marca, String modelo, String placa) {
+  // super(marca, modelo, placa);
+  // this.categoria = 1; // Categoria default é Hatch
+  // }
 
-  public int getCategoria() {
+  public CategoriaCarro getCategoria() {
     return this.categoria;
-  }
-
-  public void setCategoria(int categoria) {
-    this.categoria = categoria;
   }
 
   @Override
@@ -28,54 +25,49 @@ public class Carro extends Veiculo implements DefinicoesServicos {
 
   @Override
   public boolean getPronto() {
-      return this.pronto;
+    return this.pronto;
   }
 
-  public void setPronto(){
-      this.pronto = true;
+  public void setPronto() {
+    this.pronto = true;
   }
 
-  // Metodo que calcula a taxa adicional de acordo com o tamanho do carro
-  public double getTaxaAdicional() {
+  @Override
+  public double calcularPrecoEspecifico() { // Responsável por modificar o preço padrão do serviço em relação à
+                                            // categoria do carro do cliente.
     switch (this.categoria) {
-      case 1:
-        return 10.00;
-      case 2:
-        return 15.00;
-      case 3:
-        return 20.00;
-      case 4:
-        return 25.00;
-      default:
-        return 0.0;
+      case HATCH:
+        return 0.75;
+      case SEDAN:
+        return 0.85;
+      case SUV:
+        return 0.90;
+      case CAMINHONETE:
+        return 0.95;
     }
+    return 1.0;
   }
 
   @Override
-  public double calcularPrecoEspecifico() {
-      switch (this.categoria) {
-      case 1:
-        return 10.00;
-      case 2:
-        return 15.00;
-      case 3:
-        return 20.00;
-      case 4:
-        return 25.00;
+  public int calcularPrazoEstimado() {
+    switch (this.servicos) {
+      case INSULFILM:
+        return 3;
+      case LAVAGEM_SIMPLES:
+        return 1;
+      case LAVAGEM_DETALHADA:
+        return 2;
+      case POLIMENTO_TECNICO:
+        return 3;
+      case PPF:
+        return 3;
+      case RENOVACAO_ESTOFADOS:
+        return 4;
+      case DESCONTAMINACAO_PINTURA:
+        return 6;
       default:
-        return 0.0;
+        break;
     }
-  }
-
-  @Override
-  public double calcularTaxaAdicional() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'calcularTaxaAdicional'");
-  }
-
-  @Override
-  public double calcularPrazoEstimado() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'calcularPrazoEstimado'");
+    return 0;
   }
 }

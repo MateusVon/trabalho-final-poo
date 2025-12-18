@@ -1,13 +1,14 @@
 package model;
 
 public class VeiculosTransporte extends Veiculo implements DefinicoesServicos{
-    private boolean cabine;
+    private boolean carreta;
     private double peso;
+    private TiposDeServicos servicos;
 
     public VeiculosTransporte(String marca, String modelo, String placa, double valor, boolean possuiCarreta) {
         super(marca, modelo, placa);
         this.setPeso(valor);
-        this.cabine = possuiCarreta;
+        this.carreta = possuiCarreta;
     }
 
     public void setPeso(double valor){
@@ -18,14 +19,8 @@ public class VeiculosTransporte extends Veiculo implements DefinicoesServicos{
         this.peso = valor;
     }
 
-    @Override
-    public double getTaxaAdicional() {
-    
-        if(this.peso>12000.00){
-            return 0.0020 * peso;
-        }
-        return 0.0;
-        
+    public boolean temCarreta(){
+        return carreta;
     }
 
     @Override
@@ -38,21 +33,39 @@ public class VeiculosTransporte extends Veiculo implements DefinicoesServicos{
     }
 
     @Override
-    public double lavagemCabine() {
-        if(this.cabine == true){
-            return 30.00;
+    public double calcularPrecoEspecifico() {
+        if(peso>12000){
+            return 1.2;
         }
-        return 0.0;
+        return 1;
+    
     }
 
     @Override
-    public double polimentoTecnicoCabine() {
-        return 50.00;
-    }
-
-    @Override
-    public double limpezaDaQuintaRoda() {
-        return 25.00;
+    public int calcularPrazoEstimado() {
+        switch (servicos) {
+            case LAVAGEM_SIMPLES:
+                return 2;          
+            case LAVAGEM_DETALHADA:
+                return 3;
+            case POLIMENTO_TECNICO:
+                return 5;
+            case PPF:
+                return 5;
+            case RENOVACAO_ESTOFADOS:
+                return 3;
+            case DESCONTAMINACAO_PINTURA:
+                return 8;
+            case LIMPEZA_DA_QUINTA_RODA:
+                return 1;
+            case LAVAGEM_CARRETA:
+                return 2;
+            case POLIMENTO_TECNICO_CARRETA:
+                return 2;
+            default:
+                break;    
+        }
+        return 0;
     }
 
 
