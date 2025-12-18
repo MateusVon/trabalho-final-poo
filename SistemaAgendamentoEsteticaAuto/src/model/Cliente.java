@@ -1,85 +1,80 @@
 package model;
 
-import java.util.UUID;
-
 public class Cliente {
   private String nome;
   private String telefone;
   private String cpf;
-  //private Veiculo veiculo;
-  private final String id;
+  private Veiculo veiculo;
+  private int id;
+  private String login;
+  private String senha;
+  private Agendamento horarioMarcado;
 
+  public Cliente(){}
 
-
-  // private Agendamento horarioMarcado;
-
-  public Cliente(){ this.id = UUID.randomUUID().toString();}
-
-  public Cliente(String n, String t, String c) {
-    this.nome = n;
-    this.id= UUID.randomUUID().toString();
-    setCpf(c);
-    setTelefone(t);
-
-    
-
-    //this.veiculo = v;
+  public Cliente(String login, String senha){
+    this.login = login;
+    this.senha = senha;
   }
 
-  // Setters
-  public void setNome(String n) {
-    this.nome = n;
+  public Cliente(String nome, String telefone, String cpf, Veiculo veiculo, Agendamento horarioMarcado, String login, String senha) {
+    this.nome = nome;
+    setCpf(cpf);
+    setTelefone(telefone);
+    this.veiculo = veiculo;
+    this.horarioMarcado = horarioMarcado;
+    this.login = login;
+    this.senha = senha;
   }
 
-  public void setTelefone(String t) {
-
-    try {
-      
-      validarTelefone(t);
-        this.telefone = t;
-
-    } catch (IllegalArgumentException e) {
-
-        System.err.println("Erro ao cadastrar o Telefone, Erro:" +e.getMessage());
-
+  public Cliente(int id, String nome, String telefone, String cpf, String login, String senha) {
+        this.id = id;
+        this.nome = nome;
+        this.telefone = telefone; // 
+        this.cpf = cpf;
+        this.login = login;
+        this.senha = senha;
     }
+
+  // Getters e Setters
+
+  public String getNome() {return this.nome;}
+  public void setNome(String nome) {
+    if(nome == null){
+      throw new IllegalArgumentException("O nome de usuário não pode ser vazio");
+    }
+    this.nome = nome;
   }
 
-  public void setCpf(String c) {
-    try {
+  public String getTelefone() {return this.telefone;}
+  public void setTelefone(String telefone) {
+    validarTelefone(telefone);
+    this.telefone = telefone;
+  }
 
-      validarCPF(c);
-        this.cpf = c;
-
-    } catch (IllegalArgumentException e) {
-
+  public String getCpf() {return this.cpf;}
+  public void setCpf(String cpf) {
+      try {
+        validarCPF(cpf);
+        this.cpf = cpf;
+      } catch (IllegalArgumentException e) {
         System.err.println("Erro ao cadastrar o CPF: " + e.getMessage());
-
+      }
     }
-  }
+  public Veiculo getVeiculo() {return this.veiculo;}
+  public void setVeiculo(Veiculo veiculo) {this.veiculo = veiculo;}
 
-  /*public void setVeiculo(Veiculo v) {
-    this.veiculo = v;
-  }*/
+  public int getId() {return id;}
+  public void setId(int id) {this.id = id;}
 
-  // Getters
+  public String getLogin() {return login;}
+  public void setLogin(String login) {this.login = login;}
 
-  public String getNome() {
-    return this.nome;
-  }
+  public String getSenha() {return senha;}
+  public void setSenha(String senha) {this.senha = senha;}
 
-  public String getTelefone() {
-    return this.telefone;
-  }
-
-  public String getCpf() {
-    return this.cpf;
-  }
-
-  /*public Veiculo getVeiculo() {
-    return this.veiculo;
-  }*/
-
+  public Agendamento getHorarioMarcado() {return horarioMarcado;}
+  public void setHorarioMarcado(Agendamento horarioMarcado) {this.horarioMarcado = horarioMarcado;}
 
 /* 
   public boolean verificaCPF(String c1) {
@@ -116,35 +111,26 @@ public class Cliente {
 // METODOS para verificar CPF e TELEFONE 
 
 private void validarCPF(String cpf){
-
-  if(cpf==null){
-    throw  new IllegalArgumentException("CPF não foi preenchido ");
-  }
+  if(cpf==null){throw  new IllegalArgumentException("CPF não foi preenchido! Campo obrigatório.");}
 
   String cpfLimpo = cpf.replaceAll("[^0-9]", "");
 
   if (cpfLimpo.length() != 11) {
-
-    throw  new IllegalArgumentException("CPF não foi preenchido da forma correta");
-    
-  }
+    throw  new IllegalArgumentException("CPF inválido! Deve conter 11 dígitos.");
+   }
 }
 
-private void validarTelefone(String t){
-if (t == null) {
-     throw  new IllegalArgumentException("Telefone não foi preenchido");
-    }
+  private void validarTelefone(String telefone){
+    if (telefone == null) {throw  new IllegalArgumentException("Telefone não foi preenchido");}
 
-    String telefoneLIMPO = t.replaceAll("[^0-9]", "");
+    String telefoneLIMPO = telefone.replaceAll("[^0-9]", "");
 
-    if (telefoneLIMPO.length() != 11) {
-     throw  new IllegalArgumentException("Telefone não foi preenchido corretamente");
+    if (telefoneLIMPO.length() < 10 || telefoneLIMPO.length() > 11) {
+      throw  new IllegalArgumentException("Telefone inválido! Use DDD + Número (ex: 31999998888");
     }
   }
 
-
-
-
+  @Override
   public String toString() {
     return "ID:"+id+
            "\nNome: " + this.nome +
@@ -153,11 +139,11 @@ if (t == null) {
   }
 
   public static void main(String[] args) {
-
-    // Veiculo chev = new Carro("CHevrolet", "Chevette", "GWO-5557", 2);
-    Cliente c1 = new Cliente("Jorge", "31 9 9877-6704", "149.899.356-75");
+    /*
+    Veiculo chev = new Carro("CHevrolet", "Chevette", "GWO-5557", 2);
+    Cliente c1 = new Cliente("Jorge", "31 9 9877-6704", "149.899.356-75", chev);
     System.out.println(c1.toString());
-
+    
+    */
   }
-
 }
