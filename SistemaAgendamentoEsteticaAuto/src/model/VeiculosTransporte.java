@@ -1,6 +1,6 @@
 package model;
 
-public class VeiculosTransporte extends Veiculo implements ServicosEspeciais{
+public class VeiculosTransporte extends Veiculo implements DefinicoesServicos{
     private boolean cabine;
     private double peso;
 
