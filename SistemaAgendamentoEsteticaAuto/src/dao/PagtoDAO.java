@@ -3,9 +3,9 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.FormaPagamento;
 import model.Pagamento;
-import model.StatusPagamento;
+import model.enums.FormaPagamento;
+import model.enums.StatusPagamento;
 
 public class PagtoDAO {
     private static final String ARQUIVO = "pagamentos.txt";

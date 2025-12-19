@@ -1,5 +1,7 @@
 package model;
 
+import model.enums.TiposDeServicos;
+
 public class Servicos {
   private TiposDeServicos tipos;
   private double preco;

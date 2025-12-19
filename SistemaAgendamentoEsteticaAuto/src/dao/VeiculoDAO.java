@@ -1,9 +1,10 @@
 package dao;
 
 import model.Veiculo;
+import model.enums.CategoriaCarro;
 import model.Carro;
 import model.Moto;
-import model.CategoriaCarro; 
+
 import java.util.ArrayList;
 import java.util.List;
 

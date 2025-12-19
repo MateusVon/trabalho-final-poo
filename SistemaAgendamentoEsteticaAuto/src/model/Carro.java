@@ -1,5 +1,8 @@
 package model;
 
+import model.enums.CategoriaCarro;
+import model.enums.TiposDeServicos;
+
 public class Carro extends Veiculo implements DefinicoesServicos {
   private CategoriaCarro categoria;
   private TiposDeServicos servicos; // 1 - Hatch, 2 - Sedan, 3 - SUV, 4 - Camionete

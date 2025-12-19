@@ -1,5 +1,8 @@
 package model;
 
+import model.enums.FormaPagamento;
+import model.enums.StatusPagamento;
+
 public class Pagamento {
   private FormaPagamento formaPagamento;
   private StatusPagamento status;

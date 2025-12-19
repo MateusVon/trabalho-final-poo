@@ -1,5 +1,7 @@
 package model;
 
+import model.enums.TiposDeServicos;
+
 public class VeiculosTransporte extends Veiculo implements DefinicoesServicos{
     private boolean carreta;
     private double peso;
