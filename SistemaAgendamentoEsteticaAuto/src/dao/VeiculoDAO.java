@@ -185,4 +185,15 @@ public class VeiculoDAO implements IDAO<Veiculo> {
         }
         return null;
     }
+
+    /*
+    Teste
+    public static void main(String[] args) {
+        Carro carro = new Carro("Volks", "Gol", "GKZ-1767", CategoriaCarro.HATCH);
+        Moto moto = new Moto("Honda", "Fan", "6HJ9-2030", 160);
+        VeiculoDAO veiculoDAO = new VeiculoDAO();
+        veiculoDAO.salvar(moto);
+        veiculoDAO.salvar(carro);
+    }
+    */
 }
