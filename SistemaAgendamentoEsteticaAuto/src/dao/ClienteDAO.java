@@ -8,13 +8,22 @@ import model.Cliente;
 public class ClienteDAO implements IDAO<Cliente>{
     private static final String ARQUIVO = "clientes.txt";
 
+    public static void main(String[] args) {
+        Cliente cliente = new Cliente("Eduardo", "31997235222", "14342756633", "duduzinhoshow", "123456");
+        ClienteDAO clienteDAO = new ClienteDAO();
+        clienteDAO.salvar(cliente);
+    }
+
+
     public boolean salvar(Cliente cliente){
         int id = gerarProximoId();
         cliente.setId(id);
         String linha = cliente.getId() + ";" + 
                 cliente.getNome() + ";" +
+                cliente.getTelefone() + ";" +
                 cliente.getCpf() + ";" + 
-                cliente.getTelefone() + ";";
+                cliente.getLogin() + ";" +
+                cliente.getSenha();
         GerenciadorDeArquivos.salvar(ARQUIVO, linha);
         return true;
     }
@@ -31,12 +40,13 @@ public class ClienteDAO implements IDAO<Cliente>{
             String [] dados = linha.split(";");
 
             int id = Integer.parseInt(dados[0]);
-            String nome = new String(dados[1]);
-            String cpf = new String(dados[2]);
-            String telefone = new String(dados[3]);
+            String nome = dados[1];
+            String telefone = dados[2];
+            String cpf = dados[3];
+            String login = dados[4];
+            String senha = dados[5];
 
-            Cliente c = new Cliente(id, nome, cpf, telefone);
-            listaCliente.add(c);
+            listaCliente.add(new Cliente(id, nome, telefone, cpf, login, senha));
         }catch(Exception e){
             System.out.println("Erro ao ler o arquivo.");
         }

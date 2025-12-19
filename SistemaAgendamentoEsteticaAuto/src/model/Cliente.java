@@ -36,6 +36,14 @@ public class Cliente {
         this.senha = senha;
   }
 
+  public Cliente(String nome, String telefone, String cpf, String login, String senha) {
+        this.nome = nome;
+        this.telefone = telefone; // 
+        this.cpf = cpf;
+        this.login = login;
+        this.senha = senha;
+  }
+
   public Cliente(int id, String nome, String cpf, String telefone){
     this.id = id;
     this.nome = nome;

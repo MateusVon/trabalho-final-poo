@@ -1,6 +1,9 @@
 package view;
 
 import javax.swing.*; // Importa tudo do Swing (telas, botões)
+
+import controller.LoginController;
+
 import java.awt.*; // Importa cores e fontes
 
 public class TelaLogin extends JFrame{
@@ -32,10 +35,12 @@ public class TelaLogin extends JFrame{
         lblLogo = new JLabel("EDS Estética Automotiva");
         lblLogo.setFont(new Font("Arial", Font.BOLD, 16));
         lblLogo.setBounds(100,20,200,30); // Tamanho da logo
+        lblLogo.setForeground(Color.YELLOW);
 
         // Campo Usuario
         lblUsuario = new JLabel("Usuário");
         lblUsuario.setBounds(50,80,80,25); // Posição do Texto
+        lblUsuario.setForeground(Color.WHITE);
 
         txtUsuario = new JTextField();
         txtUsuario.setBounds(100,80,200,25); // Posição da caixa de escrever
@@ -43,6 +48,7 @@ public class TelaLogin extends JFrame{
         // Campo senha
         lblSenha = new JLabel("Senha");
         lblSenha.setBounds(50,130,80,25);
+        lblSenha.setForeground(Color.WHITE);
 
         txtSenha = new JPasswordField();
         txtSenha.setBounds(100,130,200,25);
@@ -51,6 +57,7 @@ public class TelaLogin extends JFrame{
         lblSemConta = new JLabel("Não possui conta?");
         lblSemConta.setFont(new Font("Arial", Font.PLAIN, 10));
         lblSemConta.setBounds(50,180,150,20);
+        lblSemConta.setForeground(Color.WHITE);
 
         // Botões
         btnCadastrar = new JButton("Cadastrar");
@@ -60,6 +67,20 @@ public class TelaLogin extends JFrame{
         btnEntrar = new JButton("Entrar");
         btnEntrar.setBounds(200,210,130,40);
         btnEntrar.setBackground(new Color(173, 216, 230));
+
+        btnEntrar.addActionListener(e -> {
+            String usuario = txtUsuario.getText(); // Pega o que o usuário digitou, como se fosse um scanner
+            String senha = new String(txtSenha.getPassword()); // JPassowrd exige esse tratamento fazendo um casting pra String
+
+            LoginController controller = new LoginController();
+            boolean valido = controller.autenticar(usuario, senha);
+
+            if(valido){
+                JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
+            }else{
+                JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
         add(lblLogo);
         add(lblUsuario);
