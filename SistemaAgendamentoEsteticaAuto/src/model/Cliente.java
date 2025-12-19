@@ -34,7 +34,14 @@ public class Cliente {
         this.cpf = cpf;
         this.login = login;
         this.senha = senha;
-    }
+  }
+
+  public Cliente(int id, String nome, String cpf, String telefone){
+    this.id = id;
+    this.nome = nome;
+    setCpf(cpf);
+    setTelefone(telefone);
+  }
 
   // Getters e Setters
 
