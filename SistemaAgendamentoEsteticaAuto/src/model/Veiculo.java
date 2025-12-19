@@ -5,6 +5,16 @@ public abstract class Veiculo {
   protected String modelo;
   protected String placa;
   protected boolean pronto;
+  private int id;
+
+  public Veiculo(){}
+
+  public Veiculo(int id, String marca, String modelo, String placa){
+    this.id = id;
+    this.marca = marca;
+    this.modelo = modelo;
+    this.placa = placa;
+  }
 
   public Veiculo(String marca, String modelo, String placa) {
     this.marca = marca;
@@ -17,6 +27,9 @@ public abstract class Veiculo {
   
   public abstract void setPronto();
 
+
+  public int getId(){return id;}
+  public void setId(int id){this.id = id;}
 
   public String getMarca() {
     return this.marca;
