@@ -7,7 +7,7 @@ import model.Pagamento;
 import model.enums.FormaPagamento;
 import model.enums.StatusPagamento;
 
-public class PagtoDAO {
+public class PagamentoDAO implements IDAO<Pagamento>{
     private static final String ARQUIVO = "pagamentos.txt";
 
     public boolean salvar(Pagamento pagamento) {

@@ -15,7 +15,7 @@ public class AgendamentoDAO {
 
   private ClienteDAO clienteDAO = new ClienteDAO();
   private VeiculoDAO veiculoDAO = new VeiculoDAO();
-  private PagtoDAO pagtoDAO = new PagtoDAO();
+  private PagamentoDAO pagamentoDAO = new PagamentoDAO();
 
   public boolean salvar(Agendamento agendamento) {
     if (agendamento.getCliente() == null || agendamento.getVeiculo() == null) {
@@ -64,7 +64,7 @@ public class AgendamentoDAO {
           Agendamento ag = new Agendamento(idAgenda, cliente, veiculo, prazo, hora);
 
           if (idPagamento != -1) {
-            Pagamento pag = pagtoDAO.buscarPorId(idPagamento);
+            Pagamento pag = pagamentoDAO.buscarPorId(idPagamento);
             ag.setPagamento(pag);
           }
           listaAgendamentos.add(ag);
