@@ -72,38 +72,6 @@ public class Cliente {
   public Agendamento getHorarioMarcado() {return horarioMarcado;}
   public void setHorarioMarcado(Agendamento horarioMarcado) {this.horarioMarcado = horarioMarcado;}
 
-/* 
-  public boolean verificaCPF(String c1) {
-    if (c1 == null) {
-      return false;
-    }
-
-    String cpfLIMPO = c1.replaceAll("[^0-9]", "");
-
-    if (cpfLIMPO.length() != 11) {
-
-      return false;
-    }
-
-    return true;
-
-  }
-
-  public boolean verificarTelefone(String t) {
-    if (t == null) {
-      return false;
-    }
-
-    String telefoneLIMPO = t.replaceAll("[^0-9]", "");
-
-    if (telefoneLIMPO.length() != 9) {
-      return false;
-    }
-
-    return true;
-  }
-*/
-
 // METODOS para verificar CPF e TELEFONE 
 
 private void validarCPF(String cpf){
