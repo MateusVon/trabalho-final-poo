@@ -63,7 +63,11 @@ public class TelaLogin extends JFrame{
         btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setBounds(50,210,130,40);
         btnCadastrar.setBackground(Color.WHITE);
-        
+        btnCadastrar.addActionListener(e -> {
+            new TelaCadastroCliente().setVisible(true); // Abre a tela de cadastro
+            this.dispose(); // Fecha a tela de login para não ficarem duas janelas abertas
+        });
+
         btnEntrar = new JButton("Entrar");
         btnEntrar.setBounds(200,210,130,40);
         btnEntrar.setBackground(new Color(173, 216, 230));
