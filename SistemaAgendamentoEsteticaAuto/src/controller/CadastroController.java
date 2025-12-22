@@ -1,6 +1,8 @@
 package controller;
 
 import dao.ClienteDAO;
+import exceptions.ValidacaoException;
+
 import java.util.*;
 import model.Cliente;
 public class CadastroController {
@@ -10,26 +12,25 @@ public class CadastroController {
         this.clienteDAO = new ClienteDAO();
     }
 
-    public void cadastrarCliente(String nome, String cpf, String telefone, String login, String senha) throws Exception{
+    public void cadastrarCliente(String nome, String cpf, String telefone, String login, String senha) throws ValidacaoException{
         // Validação dos campos:
         if(nome.isEmpty() || cpf.isEmpty() || telefone.isEmpty() || login.isEmpty() || senha.isEmpty()){
-            throw new Exception("Por favor preencha todos os campos!");
+            throw new ValidacaoException("Por favor preencha todos os campos!");
         }
 
         // Validação de campo incompleto:
         if(cpf.contains("_") || telefone.contains("_")){
-            throw new Exception("CPF ou Telefone incompletos.");
+            throw new ValidacaoException("CPF ou Telefone incompletos.");
         }
 
         // Validação de usuário unico:
         if(verificarExistencia(login, cpf)){
-            throw new Exception("Login já existente.");
+            throw new ValidacaoException("Login já existente.");
         }
 
         try{
             Cliente cliente = new Cliente(nome, cpf, telefone, login, senha);
             clienteDAO.salvar(cliente);
-
         }catch(IllegalArgumentException e){
             System.out.println(e.getMessage());
         }
