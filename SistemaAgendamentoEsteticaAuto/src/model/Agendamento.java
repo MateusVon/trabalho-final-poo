@@ -105,7 +105,7 @@ public class Agendamento {
     public String toString() {
         String nomeCliente = (cliente != null) ? cliente.getNome() : "Sem Cliente";
         String descVeiculo = (veiculo != null) ? veiculo.toString() : "Sem Veículo";
-        String statusPag = (pagamento != null) ? pagamento.getStatus().toString() : "Ñ Gerado";
+        String statusPag = (pagamento != null) ? pagamento.getStatus().toString() : "Não Gerado";
 
         return String.format("ID: %d | Data: %s às %s | %s | %s | Total: R$ %.2f | Pag: %s",
                 id, prazo, horario, nomeCliente, descVeiculo, calcularTotal(), statusPag);

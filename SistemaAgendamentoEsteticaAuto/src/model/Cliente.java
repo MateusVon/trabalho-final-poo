@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.ValidacaoException;
+
 public class Cliente {
   private String nome;
   private String telefone;
@@ -17,7 +19,7 @@ public class Cliente {
     this.senha = senha;
   }
 
-  public Cliente(String nome, String telefone, String cpf, Veiculo veiculo, Agendamento horarioMarcado, String login, String senha) {
+  public Cliente(String nome, String telefone, String cpf, Veiculo veiculo, Agendamento horarioMarcado, String login, String senha) throws ValidacaoException{
     this.nome = nome;
     setCpf(cpf);
     setTelefone(telefone);
@@ -27,24 +29,24 @@ public class Cliente {
     this.senha = senha;
   }
 
-  public Cliente(int id, String nome, String telefone, String cpf, String login, String senha) {
+  public Cliente(int id, String nome, String cpf, String telefone, String login, String senha) throws ValidacaoException{
         this.id = id;
         this.nome = nome;
-        this.telefone = telefone; // 
-        this.cpf = cpf;
+        setCpf(cpf);
+        setTelefone(telefone);
         this.login = login;
         this.senha = senha;
   }
 
-  public Cliente(String nome, String telefone, String cpf, String login, String senha) {
+  public Cliente(String nome, String cpf, String telefone, String login, String senha) throws ValidacaoException{
         this.nome = nome;
-        this.telefone = telefone; // 
-        this.cpf = cpf;
+        setCpf(cpf);
+        setTelefone(telefone);
         this.login = login;
         this.senha = senha;
   }
 
-  public Cliente(int id, String nome, String cpf, String telefone){
+  public Cliente(int id, String nome, String cpf, String telefone) throws ValidacaoException{
     this.id = id;
     this.nome = nome;
     setCpf(cpf);
@@ -62,13 +64,13 @@ public class Cliente {
   }
 
   public String getTelefone() {return this.telefone;}
-  public void setTelefone(String telefone) {
+  public void setTelefone(String telefone) throws ValidacaoException{
     validarTelefone(telefone);
     this.telefone = telefone;
   }
 
   public String getCpf() {return this.cpf;}
-  public void setCpf(String cpf) {
+  public void setCpf(String cpf) throws ValidacaoException{
       validarCPF(cpf);
       this.cpf = cpf;
   }
@@ -89,23 +91,23 @@ public class Cliente {
 
 // METODOS para verificar CPF e TELEFONE 
 
-private void validarCPF(String cpf){
-  if(cpf==null){throw  new IllegalArgumentException("CPF não foi preenchido! Campo obrigatório.");}
+private void validarCPF(String cpf) throws ValidacaoException{
+  if(cpf==null){throw  new ValidacaoException("CPF não foi preenchido! Campo obrigatório.");}
 
   String cpfLimpo = cpf.replaceAll("[^0-9]", "");
 
   if (cpfLimpo.length() != 11) {
-    throw  new IllegalArgumentException("CPF inválido! Deve conter 11 dígitos.");
+    throw  new ValidacaoException("CPF inválido! Deve conter 11 dígitos.");
    }
 }
 
-  private void validarTelefone(String telefone){
-    if (telefone == null) {throw  new IllegalArgumentException("Telefone não foi preenchido");}
+  private void validarTelefone(String telefone) throws ValidacaoException{
+    if (telefone == null) {throw  new ValidacaoException("Telefone não foi preenchido");}
 
     String telefoneLIMPO = telefone.replaceAll("[^0-9]", "");
 
     if (telefoneLIMPO.length() < 10 || telefoneLIMPO.length() > 11) {
-      throw  new IllegalArgumentException("Telefone inválido! Use DDD + Número (ex: 31999998888");
+      throw  new ValidacaoException("Telefone inválido! Use DDD + Número (ex: 31999998888");
     }
   }
 

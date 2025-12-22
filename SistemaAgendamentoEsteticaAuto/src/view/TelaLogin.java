@@ -3,6 +3,7 @@ package view;
 import javax.swing.*; // Importa tudo do Swing (telas, botões)
 
 import controller.LoginController;
+import exceptions.AutenticacaoException;
 
 import java.awt.*; // Importa cores e fontes
 
@@ -77,12 +78,13 @@ public class TelaLogin extends JFrame{
             String senha = new String(txtSenha.getPassword()); // JPassowrd exige esse tratamento fazendo um casting pra String
 
             LoginController controller = new LoginController();
-            boolean valido = controller.autenticar(usuario, senha);
-
-            if(valido){
-                JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
-            }else{
-                JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!", "Erro", JOptionPane.ERROR_MESSAGE);
+            try{
+                controller.logar(usuario, senha); // Tenta logar
+                JOptionPane.showMessageDialog(null, "Bem-vindo" + usuario);
+            }catch(AutenticacaoException erro){
+                JOptionPane.showMessageDialog(null, erro.getMessage(), "Falha no Login", JOptionPane.WARNING_MESSAGE);
+            }catch(Exception erroGeral){
+                JOptionPane.showMessageDialog(null, "Erro inesperado: " + erroGeral.getMessage());
             }
         });
 
