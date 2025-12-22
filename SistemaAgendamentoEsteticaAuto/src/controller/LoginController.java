@@ -3,7 +3,9 @@ package controller;
 import java.util.List;
 
 import dao.ClienteDAO;
+import exceptions.AutenticacaoException;
 import model.Cliente;
+import model.Sessao;
 
 public class LoginController {
     private ClienteDAO clienteDAO;
@@ -12,17 +14,17 @@ public class LoginController {
         this.clienteDAO = new ClienteDAO();
     }
 
-    public boolean autenticar(String login, String senha){
+    public void logar(String login, String senha) throws AutenticacaoException{
         List<Cliente> listaClientes = clienteDAO.listar();
 
         for(Cliente c : listaClientes){
-            if(c.getLogin() != null && c.getLogin().equals(login)){
-                if(c.getSenha() != null && c.getSenha().equals(senha)){
-                    return true;    
-                }
+            if(c.getLogin().equals(login) && c.getSenha().equals(senha)){
+                Sessao.setUsuarioLogado(c); // Inicia a sessão do usuario
+                return; 
             }
         }
-        return false;
+
+        throw new AutenticacaoException("Usuário ou senha incorretos.");
     }
 
 

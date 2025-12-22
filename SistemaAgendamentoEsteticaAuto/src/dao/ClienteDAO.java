@@ -8,13 +8,6 @@ import model.Cliente;
 public class ClienteDAO implements IDAO<Cliente>{
     private static final String ARQUIVO = "clientes.txt";
 
-    public static void main(String[] args) {
-        Cliente cliente = new Cliente("Eduardo", "31997235222", "14342756633", "duduzinhoshow", "123456");
-        ClienteDAO clienteDAO = new ClienteDAO();
-        clienteDAO.salvar(cliente);
-    }
-
-
     public boolean salvar(Cliente cliente){
         int id = gerarProximoId();
         cliente.setId(id);
