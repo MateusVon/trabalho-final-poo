@@ -6,11 +6,11 @@ import java.util.*;
 
 public class Agendamento {
   private int id;
-  //private LocalDate prazo;
-  //private LocalTime horario;
+  private LocalTime horario;
   private int prioridade;
   private Cliente cliente;
   private List<Servicos> servicos;
+  private String dataEntrega;
   private Veiculo veiculo; // Adicionei atributo veiculo
   private Pagamento pagamento; // Adicionei atributo pagamento
 
@@ -18,22 +18,22 @@ public class Agendamento {
     this.servicos = new ArrayList<>();
   }
 
-  public Agendamento(Cliente cliente, Veiculo veiculo, Servicos servico){
+  public Agendamento(Cliente cliente, Veiculo veiculo, Servicos servico, LocalTime horario){
     this.cliente = cliente;
     this.veiculo = veiculo;
+    this.horario = horario;
     this.definirPrioridade(veiculo, servico);
-    this.servicos = new ArrayList<>();
-    
+    this.servicos = new ArrayList<>(); 
   }
 
-  public Agendamento(int id, Cliente cliente, Veiculo veiculo, LocalDate prazo, LocalTime horario) {
-    this.id = id;
-    //this.prazo = prazo;
-    //this.horario = horario;
-    this.cliente = cliente;
-    this.veiculo = veiculo;
-    this.servicos = new ArrayList<>();
-    //definirPrioridade();
+  public Agendamento(int id, Cliente cliente, Veiculo veiculo, String servico, String dataEntrega, LocalTime horario, int prioridade){
+    this.id = getId();
+    this.cliente = getCliente();
+    this.veiculo = getVeiculo();
+    this.horario = getHorario();
+    this.prioridade = getPrioridade();
+    this.servicos = getServicos(); 
+    this.dataEntrega = getDataEntrega();
   }
 
   public void definirPrioridade(Veiculo veiculo, Servicos servico) {
@@ -45,6 +45,7 @@ public class Agendamento {
     int diaEntrega = dataEntrega.getDayOfMonth();
 
     this.prioridade = diaEntrega - dataAtual.getDayOfMonth();
+    this.dataEntrega = diaEntrega + "-" + dataEntrega.getMonthValue() + "-" + dataEntrega.getYear();
   }
 
   public void adicionarServico(Servicos servico) {
@@ -72,12 +73,6 @@ public class Agendamento {
   public int getId() {return id;}
   public void setId(int id){this.id = id;}
 
-  public LocalDate getPrazo() {return prazo;}
-  public void setPrazo(LocalDate prazo){
-    this.prazo = prazo;
-    definirPrioridade();
-  }
-
   public LocalTime getHorario() {return horario;}
   public void setHorario(LocalTime horario){this.horario = horario;}
 
@@ -94,6 +89,9 @@ public class Agendamento {
   public Pagamento getPagamento(){return pagamento;}
   public void setPagamento(Pagamento pagamento){this.pagamento = pagamento;}
 
+  public String getDataEntrega() {return dataEntrega;}
+  public void setDataEntrega(String dataEntrega) {this.dataEntrega = dataEntrega;}
+
   @Override
     public String toString() {
         String nomeCliente = (cliente != null) ? cliente.getNome() : "Sem Cliente";
@@ -101,7 +99,7 @@ public class Agendamento {
         String statusPag = (pagamento != null) ? pagamento.getStatus().toString() : "Não Gerado";
 
         return String.format("ID: %d | Data: %s às %s | %s | %s | Total: R$ %.2f | Pag: %s",
-                id, prazo, horario, nomeCliente, descVeiculo, calcularTotal(), statusPag);
+                id, dataEntrega, horario, nomeCliente, descVeiculo, calcularTotal(), statusPag);
     }
 
 }

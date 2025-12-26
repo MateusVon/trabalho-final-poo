@@ -6,7 +6,6 @@ import model.Pagamento;
 import model.Veiculo;
 
 import java.util.List;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -28,11 +27,14 @@ public class AgendamentoDAO {
     int idPagamento = agendamento.getPagamento().getId();
 
     String linha = agendamento.getId() + ";" +
-        agendamento.getPrazo() + ";" +
+        agendamento.getCliente()+ ";" +
+        agendamento.getVeiculo() + ";" +
+        agendamento.getServicos() + ";" +
+        agendamento.getDataEntrega() + ";" +
         agendamento.getHorario() + ";" +
         agendamento.getPrioridade() + ";" +
-        agendamento.getCliente() + ";" +
-        agendamento.getVeiculo() + ";" +
+        
+        
         idPagamento;
     GerenciadorDeArquivos.salvar(ARQUIVO, linha);
 
@@ -51,17 +53,21 @@ public class AgendamentoDAO {
         String[] dados = linha.split(";");
 
         int idAgenda = Integer.parseInt(dados[0]);
-        LocalDate prazo = LocalDate.parse(dados[1]);
-        LocalTime hora = LocalTime.parse(dados[2]);
-        int idCliente = Integer.parseInt(dados[3]);
-        int idVeiculo = Integer.parseInt(dados[4]);
-        int idPagamento = Integer.parseInt(dados[5]);
+        int idCliente = Integer.parseInt(dados[1]);
+        int idVeiculo = Integer.parseInt(dados[2]);
+        String servico = (dados[3]);
+        String data = (dados[4]);
+        LocalTime hora = LocalTime.parse(dados[5]);
+        int prioridade = Integer.parseInt(dados[6]);
+        
+        
+        int idPagamento = Integer.parseInt(dados[7]);
 
         Cliente cliente = clienteDAO.buscarPorId(idCliente);
         Veiculo veiculo = veiculoDAO.buscarPorId(idVeiculo);
 
         if (cliente != null && veiculo != null) {
-          Agendamento ag = new Agendamento(idAgenda, cliente, veiculo, prazo, hora);
+          Agendamento ag = new Agendamento(idAgenda, cliente, veiculo, servico, data, hora, prioridade);
 
           if (idPagamento != -1) {
             Pagamento pag = pagamentoDAO.buscarPorId(idPagamento);
@@ -94,7 +100,7 @@ public class AgendamentoDAO {
               : -1;
 
           String linhaAtualizada = agendamentoEditado.getId() + ";" +
-              agendamentoEditado.getPrazo() + ";" +
+              agendamentoEditado.getDataEntrega() + ";" +
               agendamentoEditado.getHorario() + ";" +
               agendamentoEditado.getCliente().getId() + ";" +
               agendamentoEditado.getVeiculo().getId() + ";" +
