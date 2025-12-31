@@ -1,11 +1,9 @@
 package model;
 
 import model.enums.CategoriaCarro;
-import model.enums.TiposDeServicos;
 
 public class Carro extends Veiculo  {
   private CategoriaCarro categoria;
-  private TiposDeServicos servicos; // 1 - Hatch, 2 - Sedan, 3 - SUV, 4 - Camionete
 
   public Carro(String marca, String modelo, String placa, CategoriaCarro categoria) {
     super(marca, modelo, placa);
@@ -47,13 +45,17 @@ public class Carro extends Veiculo  {
         return 0.90;
       case CAMINHONETE:
         return 0.95;
+      default:
+        return 1.0;
     }
-    return 1.0;
+    
   }
 
   @Override
   public int calcularPrazoEstimado(Servicos servico) {
-    switch (this.servicos) {
+    if (servico == null || servico.getTipos() == null) return 0;
+    
+    switch (servico.getTipos()) {
       case INSULFILM:
         return 3;
       case LAVAGEM_SIMPLES:

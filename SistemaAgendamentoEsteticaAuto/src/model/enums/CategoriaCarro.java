@@ -4,5 +4,6 @@ public enum CategoriaCarro {
     HATCH,
     SEDAN,
     SUV,
-    CAMINHONETE;
+    CAMINHONETE,
+    TRANSPORTE;
 }

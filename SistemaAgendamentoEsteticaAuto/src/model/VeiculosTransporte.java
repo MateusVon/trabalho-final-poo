@@ -1,16 +1,14 @@
 package model;
 
-import model.enums.TiposDeServicos;
+
 
 public class VeiculosTransporte extends Veiculo {
-    private boolean carreta;
-    private double peso;
-    private TiposDeServicos servicos;
+    private double peso;  
 
-    public VeiculosTransporte(String marca, String modelo, String placa, double valor, boolean possuiCarreta) {
+    public VeiculosTransporte(String marca, String modelo, String placa, double peso) {
         super(marca, modelo, placa);
-        this.setPeso(valor);
-        this.carreta = possuiCarreta;
+        this.setPeso(peso);
+        
     }
 
     public void setPeso(double valor){
@@ -21,9 +19,6 @@ public class VeiculosTransporte extends Veiculo {
         this.peso = valor;
     }
 
-    public boolean temCarreta(){
-        return carreta;
-    }
 
     @Override
     public boolean getPronto() {
@@ -45,7 +40,9 @@ public class VeiculosTransporte extends Veiculo {
 
     @Override
     public int calcularPrazoEstimado(Servicos servico) {
-        switch (servicos) {
+        if (servico == null || servico.getTipos() == null) return 0;
+        
+        switch (servico.getTipos()) {
             case LAVAGEM_SIMPLES:
                 return 2;          
             case LAVAGEM_DETALHADA:
@@ -65,9 +62,9 @@ public class VeiculosTransporte extends Veiculo {
             case POLIMENTO_TECNICO_CARRETA:
                 return 2;
             default:
-                break;    
+                return 4;   
         }
-        return 0;
+        
     }
 
 
