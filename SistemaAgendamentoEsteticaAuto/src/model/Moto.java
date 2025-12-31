@@ -2,9 +2,8 @@ package model;
 
 import model.enums.TiposDeServicos;
 
-public class Moto extends Veiculo  {
+public class Moto extends Veiculo {
   private int cilindradas;
-  private TiposDeServicos servicos;
 
   public Moto(String marca, String modelo, String placa, int cilindradas) {
     super(marca, modelo, placa);
@@ -18,11 +17,11 @@ public class Moto extends Veiculo  {
 
   @Override
   public boolean getPronto() {
-      return this.pronto;
+    return this.pronto;
   }
 
-  public void setPronto(){
-      this.pronto = true;
+  public void setPronto() {
+    this.pronto = true;
   }
 
   public int getCilindradas() {
@@ -38,18 +37,20 @@ public class Moto extends Veiculo  {
     return super.toString() + " (Moto " + getCilindradas() + "cc)";
   }
 
-
   @Override
   public double calcularPrecoEspecifico() {
-      if(this.cilindradas<1000){
-        return 0.75;
-      }
-      return 1;
+    if (this.cilindradas < 1000) {
+      return 0.75;
+    }
+    return 1;
   }
 
   @Override
   public int calcularPrazoEstimado(Servicos servico) {
-    switch (servicos) {
+    if (servico == null || servico.getTipos() == null)
+      return 0;
+
+    switch (servico.getTipos()) {
       case LAVAGEM_SIMPLES:
         return 1;
       case LAVAGEM_DETALHADA:
