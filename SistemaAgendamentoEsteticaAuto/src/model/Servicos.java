@@ -7,11 +7,12 @@ public class Servicos {
   private double preco;
   private String descricao;
 
-  Servicos(TiposDeServicos servico, double percentualPorVeiculo) {
+  public Servicos(TiposDeServicos servico, double percentualPorVeiculo) {
     this.setServico(servico, percentualPorVeiculo);
   }
 
   public void setServico(TiposDeServicos servico, double percentual) {
+    this.tipos = servico;
     switch (servico) {
       case LAVAGEM_SIMPLES:
         this.preco = 50.00 * percentual;
@@ -62,6 +63,10 @@ public class Servicos {
 
   public double getPreco() {
     return preco;
+  }
+
+  public String getDescricao(){
+    return this.descricao;
   }
 
   @Override

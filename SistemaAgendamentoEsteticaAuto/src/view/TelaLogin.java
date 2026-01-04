@@ -80,7 +80,8 @@ public class TelaLogin extends JFrame{
             LoginController controller = new LoginController();
             try{
                 controller.logar(usuario, senha); // Tenta logar
-                JOptionPane.showMessageDialog(null, "Bem-vindo" + usuario);
+                new TelaPrincipal().setVisible(true); // Abre a tela principal
+                this.dispose(); // Fecha a tela de login
             }catch(AutenticacaoException erro){
                 JOptionPane.showMessageDialog(null, erro.getMessage(), "Falha no Login", JOptionPane.WARNING_MESSAGE);
             }catch(Exception erroGeral){
