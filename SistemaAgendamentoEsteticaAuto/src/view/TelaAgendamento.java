@@ -43,6 +43,7 @@ public class TelaAgendamento extends JFrame {
     setSize(450, 550);
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setLocationRelativeTo(null);
+    setLayout(null);
     setResizable(false);
     getContentPane().setBackground(Color.decode("#F5F5F5"));
 
