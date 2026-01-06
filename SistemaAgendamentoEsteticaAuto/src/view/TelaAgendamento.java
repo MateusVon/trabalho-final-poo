@@ -40,7 +40,7 @@ public class TelaAgendamento extends JFrame {
 
     veiculoCliente = clienteLogado.getVeiculo();
 
-    setSize(450, 550);
+    setSize(450, 520);
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setLocationRelativeTo(null);
     setLayout(null);
@@ -55,7 +55,7 @@ public class TelaAgendamento extends JFrame {
     lblTitulo.setBounds(130, 20, 200, 30);
     add(lblTitulo);
 
-    JLabel lblVeiculoTitulo = criarLabel("Veículo Selecionado:", 30, 70);
+    JLabel lblVeiculoTitulo = criarLabel("Veículo Selecionado:", 40, 60);
     add(lblVeiculoTitulo);
 
     String infoVeiculo = (veiculoCliente != null)
@@ -65,19 +65,19 @@ public class TelaAgendamento extends JFrame {
     lblVeiculoInfo = new JLabel(infoVeiculo);
     lblVeiculoInfo.setFont(new Font("Segoe UI", Font.ITALIC, 14));
     lblVeiculoInfo.setForeground(Color.BLUE);
-    lblVeiculoInfo.setBounds(40, 95, 350, 25);
+    lblVeiculoInfo.setBounds(40, 85, 350, 25);
     add(lblVeiculoInfo);
 
     if (veiculoCliente == null) {
       JLabel lblAlerta = new JLabel("Cadastre um veículo antes de agendar!");
       lblAlerta.setForeground(Color.RED);
-      lblAlerta.setBounds(40, 115, 300, 20);
+      lblAlerta.setBounds(40, 105, 300, 20);
       add(lblAlerta);
     }
 
-    add(criarLabel("Selecione o serviço:", 40, 140));
+    add(criarLabel("Selecione o serviço:", 40, 130));
     cbServicos = new JComboBox<>(TiposDeServicos.values());
-    cbServicos.setBounds(40, 165, 350, 30);
+    cbServicos.setBounds(40, 155, 350, 30);
     cbServicos.setBackground(Color.WHITE);
 
     cbServicos.addActionListener(new ActionListener() {
@@ -90,10 +90,10 @@ public class TelaAgendamento extends JFrame {
     lblPrecoEstimado = new JLabel("Valor Estimado: R$ 0,00");
     lblPrecoEstimado.setFont(new Font("Segoe UI", Font.BOLD, 14));
     lblPrecoEstimado.setForeground(Color.decode("#27ae60"));
-    lblPrecoEstimado.setBounds(40, 200, 300, 25);
+    lblPrecoEstimado.setBounds(40, 190, 300, 25);
     add(lblPrecoEstimado);
 
-    add(criarLabel("Data:", 40, 240));
+    add(criarLabel("Data:", 40, 220));
     try {
       MaskFormatter maskData = new MaskFormatter("##/##/####");
       maskData.setPlaceholderCharacter('_');
@@ -101,10 +101,10 @@ public class TelaAgendamento extends JFrame {
     } catch (ParseException e) {
       txtData = new JFormattedTextField();
     }
-    txtData.setBounds(40, 265, 160, 30);
+    txtData.setBounds(40, 245, 160, 30);
     add(txtData);
 
-    add(criarLabel("Horário:", 230, 240));
+    add(criarLabel("Horário:", 230, 220));
     try {
       MaskFormatter maskHora = new MaskFormatter("##:##");
       maskHora.setPlaceholderCharacter('-');
@@ -112,17 +112,17 @@ public class TelaAgendamento extends JFrame {
     } catch (ParseException e) {
       txtHora = new JFormattedTextField();
     }
-    txtHora.setBounds(230, 265, 160, 30);
+    txtHora.setBounds(230, 245, 160, 30);
     add(txtHora);
 
-    add(criarLabel("Forma de Pagamento:", 40, 310));
+    add(criarLabel("Forma de Pagamento:", 40, 285));
     cbPagamento = new JComboBox<>(FormaPagamento.values());
-    cbPagamento.setBounds(40, 400, 350, 45);
+    cbPagamento.setBounds(40, 310, 350, 30);
     cbPagamento.setBackground(Color.WHITE);
     add(cbPagamento);
 
     btnAgendar = new JButton("CONFIRMAR AGENDAMENTO");
-    btnAgendar.setBounds(40, 400, 350, 45);
+    btnAgendar.setBounds(40, 360, 350, 45);
     btnAgendar.setBackground(Color.decode("#2c3e50"));
     btnAgendar.setForeground(Color.WHITE);
     btnAgendar.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -136,7 +136,7 @@ public class TelaAgendamento extends JFrame {
     add(btnAgendar);
 
     btnVoltar = new JButton("Cancelar");
-    btnVoltar.setBounds(150, 460, 130, 30);
+    btnVoltar.setBounds(150, 420, 130, 30);
     btnVoltar.setBackground(Color.decode("#F5f5f5"));
     btnVoltar.setBorder(null);
     btnVoltar.setForeground(Color.GRAY);
