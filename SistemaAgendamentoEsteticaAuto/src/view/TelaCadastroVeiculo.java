@@ -173,7 +173,7 @@ public class TelaCadastroVeiculo extends JDialog {//extends JFrame significa que
                 }else{
                     JOptionPane.showMessageDialog(this, "Erro ao atualizar.");
 
-                }else {
+                }}else {
                 // É UM NOVO CADASTRO
                 if (dao.salvar(veiculoSalvar)) { // Lembrando que seu salvar retorna boolean agora? Se não, ajuste.
                     JOptionPane.showMessageDialog(this, "Veículo salvo com sucesso!");
@@ -193,9 +193,5 @@ public class TelaCadastroVeiculo extends JDialog {//extends JFrame significa que
         lbl.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lbl.setBounds(x, y, 200, 20);
         return lbl;
-    }
-
-    public static void main(String[] args) {
-        new TelaCadastroVeiculo().setVisible(true);
     }
 }
