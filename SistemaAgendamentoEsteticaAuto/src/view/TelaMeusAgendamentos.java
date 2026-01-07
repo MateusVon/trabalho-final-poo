@@ -11,14 +11,14 @@ import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class TelaMeusAgendamentos {
-    private JTable table;
-    private DefaultTableModel modeloTabela;
-    public JButton btnVoltar;
-    public JButton btnCanelar;
-    public Cliente clienteLogado;
+public class TelaMeusAgendamentos extends JFrame {
+  private JTable tabela;
+  private DefaultTableModel modeloTabela;
+  public JButton btnVoltar;
+  public JButton btnCanelar;
+  public Cliente clienteLogado;
 
-    public TelaMeusAgendamentos(){
+  public TelaMeusAgendamentos(){
         super("Meus Agendamentos");
 
         //Recuperar Sessão
@@ -33,7 +33,7 @@ public class TelaMeusAgendamentos {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  
         setLayout(null);
         setResizable(false);
-        getContentPane().setBackground(Color.decode("#f5f5f5"))
+        getContentPane().setBackground(Color.decode("#f5f5f5"));
 
         JLabel lblTitulo = new JLabel("Histórico de Agendamentos");
         lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -45,7 +45,7 @@ public class TelaMeusAgendamentos {
 
         String[] colunas = {"ID", "Data", "Hora", "Prioridade", "Valor (R$)"};
         modeloTabela = new DefaultTableModel(colunas, 0){
-            public bolean isCellEditable(int row, int column){
+            public boolean isCellEditable(int row, int column){
                 return false;
             }
         };
@@ -75,57 +75,59 @@ public class TelaMeusAgendamentos {
         setVisible(true);
     }
 
-    private void carregarTabela(){
-        modeloTabela.setRowCount(0);
+  private void carregarTabela() {
+    modeloTabela.setRowCount(0);
 
-        AgendamentoDAO dao = new AgendamentoDAO();
-        List<Agendamento> lista = dao.listar();
+    AgendamentoDAO dao = new AgendamentoDAO();
+    List<Agendamento> lista = dao.listar();
 
-        DateTimeFormatter fmData = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+    DateTimeFormatter fmData = DateTimeFormatter.ofPattern("dd/mm/yyyy");
 
-        boolean encontrou = false;
+    boolean encontrou = false;
 
-        for (Agendamento a : lista){
-            if (a.getCliente() != null && a.getCliente().getCpf().equals(clienteLogado.getCpf())){
+    for (Agendamento a : lista) {
+      if (a.getCliente() != null && a.getCliente().getCpf().equals(clienteLogado.getCpf())) {
 
-                Object[] linha = {
-                    a.getId(),
-                    a.getPrazo().format(fmData),
-                    a.getHorario(),
-                    (a.getPrioridade() == 1 ? "Alta" : "Normal"),
-                     String.format("%.2f", a.calcularTotal())
-                };
-                modeloTabela.addRow(linha);
-                encontrou = true;
-            }
-        }
-        if(!encontrou){
-            JOptionPane.showMessageDialog(this, "Nenhum agendamento encontrado.");
-        }
+        String dataExibicao = (a.getDataEntrega()!= null) ? a.getDataEntrega() : "Sem data.";
+        Object[] linha = {
+            a.getId(),
+            dataExibicao,
+            a.getHorario(),
+            (a.getPrioridade() == 1 ? "Alta" : "Normal"),
+            String.format("%.2f", a.calcularTotal())
+        };
+        modeloTabela.addRow(linha);
+        encontrou = true;
+      }
+    }
+    if (!encontrou) {
+      JOptionPane.showMessageDialog(this, "Nenhum agendamento encontrado.");
+    }
+  }
+
+  private void cancelarAgendamento() {
+    int linhaSelecionada = tabela.getSelectedRow();
+
+    if (linhaSelecionada == -1) {
+      JOptionPane.showMessageDialog(this, "Selecione um agendamento na tabela para cancelar.");
+      return;
     }
 
-    private void cancelarAgendamento(){
-        int linhaSelecionada = tabela.getSelectedRow();
+    int idAgendamento = (int) tabela.getValueAt(linhaSelecionada, 0);
 
-        if (linhaSelecionada == -1){
-            JOptionPane.showMessageDialog(this, "Selecione um agendamento na tabela para cancelar.");
-            return;
-        }
-
-        int idAgendamento = (int) tabela.getValueAt(linhaSelecionada, 0);
-
-        int confirmacao = JOptionPane.showConfirmDialog(this, "Tem certesa que deseja cancelar o agendamento #"+ idAgendamento+ "?",
+    int confirmacao = JOptionPane.showConfirmDialog(this,
+        "Tem certesa que deseja cancelar o agendamento #" + idAgendamento + "?",
         "Confirmar Canelamento",
         JOptionPane.YES_NO_OPTION);
 
-        if (confirmacao == JOptionPane.YES_NO_OPTION){
-            AgendamentoDAO dao = new AgendametoDAO();
-            if (dao.deletar(idAgendamento)){
-                JOptionPane.showMessageDialog(this, "Agendamento cancelado com sucesso!");
-                carregarTabela();
-            }else{
-                JOptionPane.showMessageDialog(this, "Erro ao cancelar. Tente novamente.");
-            }
-        }
+    if (confirmacao == JOptionPane.YES_NO_OPTION) {
+      AgendamentoDAO dao = new AgendamentoDAO();
+      if (dao.deletar(idAgendamento)) {
+        JOptionPane.showMessageDialog(this, "Agendamento cancelado com sucesso!");
+        carregarTabela();
+      } else {
+        JOptionPane.showMessageDialog(this, "Erro ao cancelar. Tente novamente.");
+      }
     }
+  }
 }

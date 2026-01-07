@@ -27,13 +27,23 @@ public class Agendamento {
   }
 
   public Agendamento(int id, Cliente cliente, Veiculo veiculo, String servico, String dataEntrega, LocalTime horario, int prioridade){
-    this.id = getId();
-    this.cliente = getCliente();
-    this.veiculo = getVeiculo();
-    this.horario = getHorario();
-    this.prioridade = getPrioridade();
-    this.servicos = getServicos(); 
+    this.id = id;
+    this.cliente = cliente;
+    this.veiculo = veiculo;
+    this.horario = horario;
+    this.prioridade = prioridade; 
     this.dataEntrega = getDataEntrega();
+
+    this.servicos = new ArrayList<>();
+
+    if (servico != null && !servico.isEmpty()){
+      try {
+        model.enums.TiposDeServicos tipo = model.enums.TiposDeServicos.valueOf(servico);
+        this.servicos.add(new Servicos(tipo, prioridade));
+      } catch (Exception e) {
+        System.out.println("Erro ao converter serviço: "+ servico);
+      }
+    }
   }
 
   public void definirPrioridade(Veiculo veiculo, Servicos servico) {

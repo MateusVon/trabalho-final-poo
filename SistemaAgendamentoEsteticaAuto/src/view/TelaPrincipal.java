@@ -62,7 +62,7 @@ public class TelaPrincipal extends JFrame {
 
     JButton btnHistorico = criarBotao(" Meus Agendamentos", "Veja o que já foi feito", 50, 360);
     btnHistorico.addActionListener(e -> {
-      JOptionPane.showMessageDialog(null, "Abrindo Histórico...");
+      new TelaMeusAgendamentos().setVisible(true);
     });
     add(btnHistorico);
 
