@@ -88,12 +88,6 @@ public class Cliente {
 
   // Getters
 
-  public String getNome() {return this.nome;}
-
-  public String getTelefone() {return this.telefone;}
-
-  public String getCpf() {return this.cpf;}
-
   public String getSenha() {return senha;}
   public void setSenha(String senha) {this.senha = senha;}
 
