@@ -177,6 +177,4 @@ public class TelaCatalogoServicos extends JFrame {
     }
   }
 
-  
-
 }

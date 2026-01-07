@@ -25,8 +25,11 @@ public abstract class Veiculo implements DefinicoesServicos {
   }
 
   public abstract boolean getPronto();
+
   public abstract int calcularPrazoEstimado(Servicos servico);
+
   public abstract double calcularPrecoEspecifico();
+
   public abstract void setPronto();
 
   public int getId() {

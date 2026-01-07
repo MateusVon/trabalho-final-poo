@@ -65,7 +65,7 @@ public class Servicos {
     return preco;
   }
 
-  public String getDescricao(){
+  public String getDescricao() {
     return this.descricao;
   }
 

@@ -2,7 +2,7 @@ package model;
 
 import model.enums.CategoriaCarro;
 
-public class Carro extends Veiculo  {
+public class Carro extends Veiculo {
   private CategoriaCarro categoria;
 
   public Carro(String marca, String modelo, String placa, CategoriaCarro categoria) {
@@ -48,13 +48,14 @@ public class Carro extends Veiculo  {
       default:
         return 1.0;
     }
-    
+
   }
 
   @Override
   public int calcularPrazoEstimado(Servicos servico) {
-    if (servico == null || servico.getTipos() == null) return 0;
-    
+    if (servico == null || servico.getTipos() == null)
+      return 0;
+
     switch (servico.getTipos()) {
       case INSULFILM:
         return 3;
@@ -75,6 +76,5 @@ public class Carro extends Veiculo  {
     }
     return 0;
   }
-
 
 }
