@@ -1,6 +1,8 @@
 package view;
 
 import dao.VeiculoDAO;
+import exceptions.VeiculoException;
+
 import java.awt.*;//(Abstract Window Toolkit) é um pacote padrão do Java usado para interface gráfica.  ela contem cores e fontes entre outros
 import javax.swing.*;
 import model.Carro;
@@ -8,8 +10,10 @@ import model.Moto;
 import model.Veiculo;
 import model.enums.CategoriaCarro;
 
-public class TelaCadastroVeiculo extends JFrame {//extends JFrame significa que essa classe É uma janela do Swing.
+public class TelaCadastroVeiculo extends JDialog {//extends JFrame significa que essa classe É uma janela do Swing.
 
+    private Veiculo veiculoEdicao=null;
+    private boolean atualizou=false;
     private JComboBox<String> cbTipoVeiculo;//Caixa de seleção suspensa para veiculos
     //Campos de texto para o usuário digitar marca, modelo e placa:
     private JTextField txtMarca;
@@ -28,20 +32,14 @@ public class TelaCadastroVeiculo extends JFrame {//extends JFrame significa que 
     private JButton btnCancelar;
     
 
-    public TelaCadastroVeiculo() {
-        super("Cadastro de Veículo");
-        setSize(400, 550); 
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+    public TelaCadastroVeiculo(Frame owner, Veiculo veiculoParaEditar ){
+        super(owner, "Cadastro de Veículo", true);
+        this.veiculoEdicao=veiculoParaEditar;
+        setSize(400, 550);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(owner);
         setLayout(null);
-        setResizable(false);
-        getContentPane().setBackground(Color.decode("#F5F5F5")); 
-
-        JLabel lblTitulo = new JLabel("Novo Veículo");
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        lblTitulo.setForeground(Color.decode("#2c3e50"));
-        lblTitulo.setBounds(120, 20, 200, 30);
-        add(lblTitulo);
+        getContentPane().setBackground(Color.decode("#F5F5F5"));
 
         add(criarLabel("Tipo de Veículo:", 40, 70));
         cbTipoVeiculo = new JComboBox<>(new String[]{"Carro", "Moto"});
@@ -67,20 +65,18 @@ public class TelaCadastroVeiculo extends JFrame {//extends JFrame significa que 
 
         lblCategoria = criarLabel("Categoria:", 40, 330);
         add(lblCategoria);
-        cbCategoria = new JComboBox<>(CategoriaCarro.values()); 
+        cbCategoria = new JComboBox<>(CategoriaCarro.values());
         cbCategoria.setBounds(40, 355, 300, 30);
         cbCategoria.setBackground(Color.WHITE);
         add(cbCategoria);
 
         lblCilindradas = criarLabel("Cilindradas (cc):", 40, 330);
-        add(lblCilindradas); 
+        add(lblCilindradas);
         txtCilindradas = new JTextField();
         txtCilindradas.setBounds(40, 355, 300, 30);
         add(txtCilindradas);
 
-        alternarCampos();
-
-        btnSalvar = new JButton("SALVAR VEÍCULO");
+        btnSalvar = new JButton("SALVAR");
         btnSalvar.setBounds(40, 410, 300, 40);
         btnSalvar.setBackground(Color.decode("#27ae60"));
         btnSalvar.setForeground(Color.WHITE);
@@ -97,6 +93,31 @@ public class TelaCadastroVeiculo extends JFrame {//extends JFrame significa que 
         btnCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnCancelar.addActionListener(e -> dispose());
         add(btnCancelar);
+
+        if(veiculoEdicao !=null){
+            preencherDadosEdicao();
+            
+
+        }
+    }
+
+    private void preencherDadosEdicao(){
+        txtMarca.setText(veiculoEdicao.getMarca());
+        txtModelo.setText(veiculoEdicao.getModelo());
+        txtPlaca.setText(veiculoEdicao.getPlaca());
+        cbTipoVeiculo.setEnabled(false);
+
+        if (veiculoEdicao instanceof Carro) {
+            cbTipoVeiculo.setSelectedItem("Carro");
+            Carro c = (Carro) veiculoEdicao;
+            cbCategoria.setSelectedItem(c.getCategoria());
+        } else if (veiculoEdicao instanceof Moto) {
+            cbTipoVeiculo.setSelectedItem("Moto");
+            Moto m = (Moto) veiculoEdicao;
+            txtCilindradas.setText(String.valueOf(m.getCilindradas()));
+        }
+        alternarCampos();
+
     }
 
     private void alternarCampos() {
@@ -120,30 +141,49 @@ public class TelaCadastroVeiculo extends JFrame {//extends JFrame significa que 
             return;
         }
 
-        try {
-            Veiculo veiculo;
+        try{
+           VeiculoDAO dao = new VeiculoDAO();
+           Veiculo existente = dao.buscarPorPlaca(placa);
             
+            if(veiculoEdicao ==null && existente !=null){
+                JOptionPane.showMessageDialog(this,"Erro: Placa já cadastrada!", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Veiculo veiculoSalvar;
+
             if ("Carro".equals(tipo)) {
                 CategoriaCarro cat = (CategoriaCarro) cbCategoria.getSelectedItem();
-                veiculo = new Carro(marca, modelo, placa, cat);
+                veiculoSalvar = new Carro(marca, modelo, placa, cat);
             } else {
                 if (txtCilindradas.getText().trim().isEmpty()) {
                      JOptionPane.showMessageDialog(this, "Informe as cilindradas!");
                      return;
                 }
                 int cc = Integer.parseInt(txtCilindradas.getText().trim());
-                veiculo = new Moto(marca, modelo, placa, cc);
+                veiculoSalvar = new Moto(marca, modelo, placa, cc);
             }
+            if(veiculoEdicao!=null ){
+                veiculoSalvar.setId(veiculoEdicao.getId());
+                if(dao.atualizar(veiculoSalvar)){
+                    JOptionPane.showMessageDialog(this, "Veículo atualizado com sucesso!");
+                    atualizou=true;
+                    dispose();
 
-            VeiculoDAO dao = new VeiculoDAO();
-            dao.salvar(veiculo);
-            
-            JOptionPane.showMessageDialog(this, "Veículo salvo com sucesso!");
-            dispose();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Erro ao atualizar.");
 
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Cilindradas deve ser um número válido!");
-        } catch (Exception e) {
+                }else {
+                // É UM NOVO CADASTRO
+                if (dao.salvar(veiculoSalvar)) { // Lembrando que seu salvar retorna boolean agora? Se não, ajuste.
+                    JOptionPane.showMessageDialog(this, "Veículo salvo com sucesso!");
+                     atualizou = true; // Marca sucesso
+                    dispose();
+                }
+            }
+        }catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Cilindradas deve ser número!");
+        }catch (Exception e) { 
             JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
         }
     }

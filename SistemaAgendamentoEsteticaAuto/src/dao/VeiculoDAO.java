@@ -12,7 +12,7 @@ public class VeiculoDAO implements IDAO<Veiculo> {
     private static final String ARQUIVO = "veiculos.txt";
 
     @Override
-    public boolean salvar(Veiculo v) {
+    public boolean salvar(Veiculo v){
         if (v.getId() == 0) {
             int novoId = gerarProximoId();
             v.setId(novoId);

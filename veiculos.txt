@@ -7,3 +7,5 @@
 6;CARRO;test323;teste;testando;HATCH
 7;CARRO;jjjjjj;jjj;jjj;HATCH
 8;CARRO;tsts;tsts;tststs;HATCH
+9;CARRO;aa;lala;aa;SUV
+10;CARRO;aaaa;lalal;eee;SEDAN

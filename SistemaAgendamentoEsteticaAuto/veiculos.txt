@@ -1,2 +1,4 @@
 1;CARRO;GKZ-1767;Volks;Gol;HATCH
-2;MOTO;6HJ9-2030;Honda;Fan;1603;CARRO;aaa;lalau;aaa;HATCH
+2;MOTO;6HJ9-2030;Honda;Fan;160
+3;CARRO;aaa;lalau;aaa;HATCH
+
