@@ -1,12 +1,10 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.text.MaskFormatter;
-
 import controller.CadastroController;
-
 import java.awt.*;
 import java.text.ParseException;
+import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 
 public class TelaCadastroCliente extends JFrame {
   // Componentes

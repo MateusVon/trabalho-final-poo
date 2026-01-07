@@ -1,19 +1,18 @@
 package dao;
 
-import model.Veiculo;
-import model.enums.CategoriaCarro;
-import model.Carro;
-import model.Moto;
-
 import java.util.ArrayList;
 import java.util.List;
+import model.Carro;
+import model.Moto;
+import model.Veiculo;
+import model.enums.CategoriaCarro;
 
 public class VeiculoDAO implements IDAO<Veiculo> {
 
     private static final String ARQUIVO = "veiculos.txt";
 
     @Override
-    public boolean salvar(Veiculo v) {
+    public boolean salvar(Veiculo v){
         if (v.getId() == 0) {
             int novoId = gerarProximoId();
             v.setId(novoId);
@@ -40,7 +39,7 @@ public class VeiculoDAO implements IDAO<Veiculo> {
             Moto m = (Moto) v;
             sb.append(m.getCilindradas()); 
         }
-
+        
         GerenciadorDeArquivos.salvar(ARQUIVO, sb.toString());
         return true;
     }

@@ -82,6 +82,17 @@ public class Cliente {
 
   public String getLogin() {return login;}
   public void setLogin(String login) {this.login = login;}
+  /*public void setVeiculo(Veiculo v) {
+    this.veiculo = v;
+  }*/
+
+  // Getters
+
+  public String getNome() {return this.nome;}
+
+  public String getTelefone() {return this.telefone;}
+
+  public String getCpf() {return this.cpf;}
 
   public String getSenha() {return senha;}
   public void setSenha(String senha) {this.senha = senha;}
