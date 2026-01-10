@@ -1,7 +1,5 @@
 package model;
 
-import model.enums.TiposDeServicos;
-
 public class Moto extends Veiculo {
   private int cilindradas;
 

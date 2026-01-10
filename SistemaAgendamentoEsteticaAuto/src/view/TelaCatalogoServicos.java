@@ -117,41 +117,39 @@ public class TelaCatalogoServicos extends JFrame {
     modeloTabela.setRowCount(0); // Limpa a tabela antes do preenchimento atualizado.
     // Criação de objetos temporários para atualizar dados da tabela (Preço e
     // Prazo);
-    Veiculo v = obterInstanciaVeiculo();
-    double percentual = v.calcularPrecoEspecifico(); // percentual recebe a porcentagem específica calculada no
-                                                     // método chamado.
+    try {
+      Veiculo v = obterInstanciaVeiculo();
+      double percentual = v.calcularPrecoEspecifico(); // percentual recebe a porcentagem específica calculada no
+                                                       // método chamado.
 
-    for (TiposDeServicos tipo : TiposDeServicos.values()) { // " TiposDeServicos.values()" é um método implementado
-                                                            // pelo Java automaticamente quando se cria um Enum.
-                                                            // Esse método entrega um array contendo todos os
-                                                            // elementos escritos dentro do Enum.
-      if (tipo.isExclusivoTransporte() && !(v instanceof VeiculosTransporte)) {
-        continue;
+      for (TiposDeServicos tipo : TiposDeServicos.values()) { // " TiposDeServicos.values()" é um método implementado
+                                                              // pelo Java automaticamente quando se cria um Enum.
+                                                              // Esse método entrega um array contendo todos os
+                                                              // elementos escritos dentro do Enum.
+        if (tipo.isExclusivoTransporte() && !(v instanceof VeiculosTransporte)) {
+          continue;
+        }
+
+        if (tipo == TiposDeServicos.INSULFILM && (v instanceof Moto)) {
+          continue;
+        }
+
+        Servicos servico = new Servicos(tipo, percentual);
+        int prazo = v.calcularPrazoEstimado(servico);
+
+        modeloTabela.addRow(new Object[] {
+            tipo.name().replace("_", " "), // replace troca o underline para um espaço vazio. Questão de
+                                           // visibilidade e estética para o usuário.
+            String.format("R$ %.2f", servico.getPreco()), // Armazena o preço do serviço na linha da tabela.
+            prazo + " dia(s)" // Armazena o prazo do serviço na linha da tabela.
+        });
       }
 
-      if (tipo == TiposDeServicos.INSULFILM && (v instanceof Moto)) {
-        continue;
-      }
-
-      Servicos servico = new Servicos(tipo, percentual);
-      int prazo = v.calcularPrazoEstimado(servico);
-
-      modeloTabela.addRow(new Object[] {
-          tipo.name().replace("_", " "), // replace troca o underline para um espaço vazio. Questão de
-                                         // visibilidade e estética para o usuário.
-          String.format("R$ %.2f", servico.getPreco()), // Armazena o preço do serviço na linha da tabela.
-          prazo + " dia(s)" // Armazena o prazo do serviço na linha da tabela.
-      });
+    } catch (Exception e) {
+      JOptionPane.showMessageDialog(this, "Erro ao atualizar os dados: " + e.getMessage());
+      e.printStackTrace();
     }
 
-  }
-
-  private boolean IsServicosDeVeiculosTransporte(TiposDeServicos tipo) {
-    if (tipo == TiposDeServicos.LAVAGEM_CARRETA || tipo == TiposDeServicos.LIMPEZA_DA_QUINTA_RODA
-        || tipo == TiposDeServicos.POLIMENTO_TECNICO_CARRETA) {
-      return true;
-    }
-    return false;
   }
 
   private Veiculo obterInstanciaVeiculo() { // Método responsável por converter a String que contém a opção da
