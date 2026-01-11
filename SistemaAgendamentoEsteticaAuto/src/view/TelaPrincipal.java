@@ -44,7 +44,8 @@ public class TelaPrincipal extends JFrame {
     // Botões
     JButton btnVeiculos = criarBotao("Meus Veículos", "Cadastre ou gerencie seus carros", 50, 120);
     btnVeiculos.addActionListener(e -> {
-      new TelaCadastroVeiculo(null, null).setVisible(true);
+      //new TelaCadastroVeiculo(null, null).setVisible(true);
+      new TelaMeusVeiculos(null).setVisible(true);
     });
     add(btnVeiculos);
 
