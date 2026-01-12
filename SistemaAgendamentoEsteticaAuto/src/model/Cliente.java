@@ -31,8 +31,7 @@ public class Cliente {
     this.senha = senha;
   }
 
-  public Cliente(int id, String nome, String cpf, String telefone, String login, String senha)
-      throws ValidacaoException {
+  public Cliente(int id, String nome, String cpf, String telefone, String login, String senha) throws ValidacaoException {
     this.id = id;
     this.nome = nome;
     setCpf(cpf);
@@ -74,8 +73,13 @@ public class Cliente {
   }
 
   public void setTelefone(String telefone) throws ValidacaoException {
-    validarTelefone(telefone);
-    this.telefone = telefone;
+    try {
+      validarTelefone(telefone);
+      this.telefone = telefone;
+    } catch (ValidacaoException e) {
+      System.out.println("Erro! O espaço destinado para o número de telefone não foi preenchido.");
+    }
+
   }
 
   public String getCpf() {
@@ -83,8 +87,13 @@ public class Cliente {
   }
 
   public void setCpf(String cpf) throws ValidacaoException {
-    validarCPF(cpf);
-    this.cpf = cpf;
+    try{
+      validarCPF(cpf);
+      this.cpf = cpf;
+    }catch(ValidacaoException t){
+        System.out.println("Erro! O campo do CPF deve ser preenchido corretamente para efetuar o cadastro.");
+    }
+
   }
 
   public Veiculo getVeiculo() {

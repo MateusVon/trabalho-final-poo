@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
+import exceptions.AgendamentoException;
+
 public class Agendamento {
   private int id;
   private LocalTime horario;
   private int prioridade;
   private Cliente cliente;
   private List<Servicos> servicos;
+  private LocalDate dataEntregaCliente;
   private String dataEntrega;
   private Veiculo veiculo; // Adicionei atributo veiculo
   private Pagamento pagamento; // Adicionei atributo pagamento
@@ -18,16 +21,17 @@ public class Agendamento {
     this.servicos = new ArrayList<>();
   }
 
-  public Agendamento(Cliente cliente, Veiculo veiculo, Servicos servico, LocalTime horario) {
+  public Agendamento(Cliente cliente, Veiculo veiculo, Servicos servico, LocalTime horario, LocalDate dataEntregaCliente) throws AgendamentoException {
+    
     this.cliente = cliente;
     this.veiculo = veiculo;
-    this.horario = horario;
-    this.definirPrioridade(veiculo, servico);
+    this.setHorario(horario);
+    this.dataEntregaCliente = dataEntregaCliente;
+    this.definirPrazos(veiculo, servico,dataEntregaCliente);
     this.servicos = new ArrayList<>();
   }
 
-  public Agendamento(int id, Cliente cliente, Veiculo veiculo, String servico, String dataEntrega, LocalTime horario,
-      int prioridade) {
+  public Agendamento(int id, Cliente cliente, Veiculo veiculo, String servico, String dataEntrega, LocalTime horario, int prioridade) {
     this.id = id;
     this.cliente = cliente;
     this.veiculo = veiculo;
@@ -46,12 +50,12 @@ public class Agendamento {
       }
     }
   }
-
-  public void definirPrioridade(Veiculo veiculo, Servicos servico) {
+ 
+  public void definirPrazos(Veiculo veiculo, Servicos servico, LocalDate dataEntregaCliente) {
     LocalDate dataEntrega;
     // if(this.prazo == null) return; // Verificação para que exista prazo
 
-    LocalDate dataAtual = LocalDate.now();
+    LocalDate dataAtual = dataEntregaCliente;
     dataEntrega = dataAtual.plusDays(veiculo.calcularPrazoEstimado(servico));
     int diaEntrega = dataEntrega.getDayOfMonth();
 
@@ -94,8 +98,14 @@ public class Agendamento {
     return horario;
   }
 
-  public void setHorario(LocalTime horario) {
-    this.horario = horario;
+  public void setHorario(LocalTime horario)throws AgendamentoException{
+      LocalTime abertura = LocalTime.of(7, 30);
+      LocalTime fechamento = LocalTime.of(18, 0);
+
+      if(horario.isBefore(abertura) || horario.isAfter(fechamento)){
+        throw new AgendamentoException("Horário inválido. O funcionamento padrão é de 7:30 às 18:30");
+      }
+      this.horario = horario;
   }
 
   public int getPrioridade() {

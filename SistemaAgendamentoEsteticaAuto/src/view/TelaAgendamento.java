@@ -8,7 +8,8 @@ import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.text.ParseException;
-
+import controller.AgendamentoController;
+import exceptions.AgendamentoException;
 import dao.AgendamentoDAO;
 import model.*;
 import model.enums.FormaPagamento;
@@ -76,17 +77,32 @@ public class TelaAgendamento extends JFrame {
     }
 
     add(criarLabel("Selecione o serviço:", 40, 130));
-    cbServicos = new JComboBox<>(TiposDeServicos.values());
-    cbServicos.setBounds(40, 155, 350, 30);
-    cbServicos.setBackground(Color.WHITE);
+    // --- 1. Inicialização (Não redeclare a variável, use a da classe) ---
+    add(criarLabel("Selecione o serviço:", 40, 130)); //
+    cbServicos = new JComboBox<>();
+    cbServicos.setBackground(Color.WHITE); //
 
-    cbServicos.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        atualizarPrecoEstimado();
+    // Lógica de Filtragem
+    if (veiculoCliente != null) {
+      for (TiposDeServicos tipo : TiposDeServicos.values()) {
+        // Filtro para Veículos de Transporte
+        if (tipo.isExclusivoTransporte() && !(veiculoCliente instanceof VeiculosTransporte)) {
+          continue;
+        }
+
+        // Filtro para Motos
+        if (tipo == TiposDeServicos.INSULFILM && (veiculoCliente instanceof Moto)) {
+          continue;
+        }
+
+        cbServicos.addItem(tipo); // Adiciona apenas o que passou nos filtros
       }
-    });
-    add(cbServicos);
+    }
 
+    cbServicos.setBounds(40, 155, 350, 30); // Define posição e tamanho
+
+    cbServicos.addActionListener(e -> atualizarPrecoEstimado()); //
+    add(cbServicos); // Sem essa linha, a caixa não aparece na tela!
     lblPrecoEstimado = new JLabel("Valor Estimado: R$ 0,00");
     lblPrecoEstimado.setFont(new Font("Segoe UI", Font.BOLD, 14));
     lblPrecoEstimado.setForeground(Color.decode("#27ae60"));
@@ -165,51 +181,43 @@ public class TelaAgendamento extends JFrame {
   }
 
   private void realizarAgendamento() {
+    // Coleta os dados do input do usuário na view
     String dataString = txtData.getText();
     String horaString = txtHora.getText();
 
-    if (dataString.contains("_") || horaString.contains("_")) {
+    // Validação para preenchimento de hora e data
+    if (dataString.contains("_") || horaString.contains("-")) {
       JOptionPane.showMessageDialog(this, "Preencha a Data e a Hora corretamente!");
       return;
     }
+
     try {
-
-      // Conversão de Hora
-      LocalTime horario = LocalTime.parse(horaString, DateTimeFormatter.ofPattern("HH:mm"));
-
-      // Preparação dos Objetos
+      // Recupera os itens selecionados nos ComboBoxes (Serviço desejado e a forma de pagamento)
       TiposDeServicos tipoSelecionado = (TiposDeServicos) cbServicos.getSelectedItem();
       FormaPagamento formaPag = (FormaPagamento) cbPagamento.getSelectedItem();
 
-      // Calcula o preço final
-      double percentual = veiculoCliente.calcularPrecoEspecifico();
-      Servicos servicoFinal = new Servicos(tipoSelecionado, percentual);
+      AgendamentoController controller = new AgendamentoController();
 
-      // Cria Pagamento
-      Pagamento pagamento = new Pagamento(servicoFinal.getPreco(), formaPag, StatusPagamento.PENDENTE);
+      // 5. Envia os dados para processamento
+      // Como o Controller declara "throws", a View é obrigada a tratar com catch
+      controller.verificaAgendamento(
+          clienteLogado,
+          veiculoCliente,
+          tipoSelecionado,
+          dataString,
+          horaString,
+          formaPag);
 
-      // Cria Agendamento
-      Agendamento novoAgendamento = new Agendamento(clienteLogado, veiculoCliente, servicoFinal, horario);
-
-      // Adiciona o serviço na lista do agendamento
-      novoAgendamento.adicionarServico(servicoFinal);
-
-      // Define a data de entrega que vem do input
-      novoAgendamento.setDataEntrega(dataString);
-
-      // Vincula Agendamento
-      novoAgendamento.setPagamento(pagamento);
-
-      // Salva no DAO(Arquivo)
-      AgendamentoDAO dao = new AgendamentoDAO();
-
-      dao.salvar(novoAgendamento);
-
-      JOptionPane.showMessageDialog(this, "Agendamento realizado com Sucesso!\nPrazo estimado: "
-          + veiculoCliente.calcularPrazoEstimado(servicoFinal) + " dias.");
+      // Evento para printar na tela do usuário.
+      JOptionPane.showMessageDialog(this, "Agendamento realizado com Sucesso!");
       dispose();
+
+    } catch (AgendamentoException e) {
+      // Printa na tela os erros de regra de negócio (ex: horário fora do expediente)
+      JOptionPane.showMessageDialog(this, e.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
     } catch (Exception e) {
-      JOptionPane.showMessageDialog(this, "Erro ao agendar: " + e.getMessage());
+      // Captura erros inesperados de sistema ou conversão
+      JOptionPane.showMessageDialog(this, "Erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
       e.printStackTrace();
     }
   }
