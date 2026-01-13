@@ -6,6 +6,7 @@ public abstract class Veiculo implements DefinicoesServicos {
   protected String placa;
   protected boolean pronto;
   private int id;
+  private String cpfProprietario;
 
   public Veiculo() {
   }
@@ -64,8 +65,16 @@ public abstract class Veiculo implements DefinicoesServicos {
     this.placa = placa;
   }
 
+  public String getCpfProprietario(){
+    return cpfProprietario;
+  }
+
+  public void setCpfProprietario(String cpfProprietario){
+    this.cpfProprietario = cpfProprietario;
+  }
+
   @Override
   public String toString() {
-    return "--- Veículo ---\nMarca: " + getMarca() + "\nModelo: " + getModelo() + "\nPlaca: " + getPlaca();
+    return getMarca() + " " + getModelo() + " (" + getPlaca() + ")";
   }
 }
