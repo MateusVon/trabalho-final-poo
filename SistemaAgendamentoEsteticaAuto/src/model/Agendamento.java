@@ -21,6 +21,7 @@ public class Agendamento {
     this.servicos = new ArrayList<>();
   }
 
+  // Construtor para novos agendamentos 
   public Agendamento(Cliente cliente, Veiculo veiculo, Servicos servico, LocalTime horario, LocalDate dataEntregaCliente) throws AgendamentoException {
     
     this.cliente = cliente;
@@ -31,13 +32,14 @@ public class Agendamento {
     this.servicos = new ArrayList<>();
   }
 
+  // Construtor para o DAO 
   public Agendamento(int id, Cliente cliente, Veiculo veiculo, String servico, String dataEntrega, LocalTime horario, int prioridade) {
     this.id = id;
     this.cliente = cliente;
     this.veiculo = veiculo;
     this.horario = horario;
     this.prioridade = prioridade;
-    this.dataEntrega = getDataEntrega();
+    this.dataEntrega = dataEntrega;
 
     this.servicos = new ArrayList<>();
 
@@ -79,13 +81,13 @@ public class Agendamento {
       total += s.getPreco();
     }
 
-    if (cliente != null && veiculo != null) {
-      // total += veiculo.getTaxaAdicional(); ARRUMAR ESSE CALCULO
+    if (veiculo != null) {
+      total = total * veiculo.calcularPrecoEspecifico();
     }
     return total;
   }
 
-  // Adicionei Setters
+  // Setters e Getters
   public int getId() {
     return id;
   }
@@ -110,6 +112,9 @@ public class Agendamento {
 
   public int getPrioridade() {
     return prioridade;
+  }
+  public void setPrioridade(int prioridade){
+    this.prioridade = prioridade;
   }
 
   public Cliente getCliente() {
