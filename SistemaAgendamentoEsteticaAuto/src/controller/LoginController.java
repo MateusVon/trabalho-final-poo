@@ -3,9 +3,11 @@ package controller;
 import java.util.List;
 
 import dao.ClienteDAO;
+import dao.VeiculoDAO;
 import exceptions.AutenticacaoException;
 import model.Cliente;
 import model.Sessao;
+import model.Veiculo;
 
 public class LoginController {
     private ClienteDAO clienteDAO;
@@ -19,6 +21,19 @@ public class LoginController {
 
         for(Cliente c : listaClientes){
             if(c.getLogin().equals(login) && c.getSenha().equals(senha)){
+                try {
+                    VeiculoDAO veiculoDAO = new VeiculoDAO();
+                    // Só busca se o cliente tiver CPF válido
+                    if (c.getCpf() != null && !c.getCpf().isEmpty()) {
+                        Veiculo carroDoCliente = veiculoDAO.buscarPorCpfCliente(c.getCpf());
+                        
+                        if (carroDoCliente != null) {
+                            c.setVeiculo(carroDoCliente);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.err.println("Aviso: Não foi possível carregar o veículo. O login continuará normal.");
+                }
                 Sessao.setUsuarioLogado(c); // Inicia a sessão do usuario
                 return; 
             }

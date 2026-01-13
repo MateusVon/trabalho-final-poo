@@ -1,2 +1,7 @@
 1;2025-12-11;16:30:24.641504300;1;123.456.789-00
 1;2025-12-11;16:30:51.152004;1;123.456.789-00
+1;ID:7
+Nome: mateus von sperling
+CPF: (31) 98433-4462
+Telefone: 162.878.916-61;Chevrolet Cruze (ABC-1234) (Carro);[Descrição: Processo avançado de restauração da pintura que vai além do brilho superficial, corrigindo defeitos como riscos, manchas de chuva ácida e oxidação através de múltiplas etapas (lavagem, descontaminação, corte, refino, lustro) 
+Preço: R$595,00];16-1-2026;12:00;3;12

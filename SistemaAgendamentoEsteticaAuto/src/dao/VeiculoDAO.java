@@ -28,7 +28,7 @@ public class VeiculoDAO implements IDAO<Veiculo> {
             sb.append(v.getModelo()).append(";");
  
             Carro c = (Carro) v; 
-            sb.append(c.getCategoria().name()); 
+            sb.append(c.getCategoria().name()).append(";"); 
         
         } else if (v instanceof Moto) {
             sb.append("MOTO").append(";"); 
@@ -37,8 +37,11 @@ public class VeiculoDAO implements IDAO<Veiculo> {
             sb.append(v.getModelo()).append(";");
             
             Moto m = (Moto) v;
-            sb.append(m.getCilindradas()); 
+            sb.append(m.getCilindradas()).append(";"); 
         }
+
+        String cpfDono = (v.getCpfProprietario() != null) ? v.getCpfProprietario() : "SEM_DONO";
+        sb.append(cpfDono);
         
         GerenciadorDeArquivos.salvar(ARQUIVO, sb.toString());
         return true;
@@ -60,6 +63,10 @@ public class VeiculoDAO implements IDAO<Veiculo> {
                 String placa = dados[2];
                 String marca = dados[3];
                 String modelo = dados[4];
+                String cpfDono = "";
+                if(dados.length > 6){
+                    cpfDono = dados[6];
+                }
 
                 Veiculo v = null;
 
@@ -74,6 +81,7 @@ public class VeiculoDAO implements IDAO<Veiculo> {
 
                 if (v != null) {
                     v.setId(id);
+                    v.setCpfProprietario(cpfDono);
                     lista.add(v);
                 }
 
@@ -82,6 +90,17 @@ public class VeiculoDAO implements IDAO<Veiculo> {
             }
         }
         return lista;
+    }
+
+
+    public Veiculo buscarPorCpfCliente(String cpfCliente){
+        List<Veiculo> todos = listar();
+        for (Veiculo v : todos) {
+            if (v.getCpfProprietario() != null && v.getCpfProprietario().equals(cpfCliente)) {
+                return v;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -106,15 +125,18 @@ public class VeiculoDAO implements IDAO<Veiculo> {
                     sb.append(c.getPlaca()).append(";");
                     sb.append(c.getMarca()).append(";");
                     sb.append(c.getModelo()).append(";");
-                    sb.append(c.getCategoria().name());
+                    sb.append(c.getCategoria().name()).append(";");
                 } else if (veiculoEditado instanceof Moto) {
                     sb.append("MOTO").append(";");
                     Moto m = (Moto) veiculoEditado;
                     sb.append(m.getPlaca()).append(";");
                     sb.append(m.getMarca()).append(";");
                     sb.append(m.getModelo()).append(";");
-                    sb.append(m.getCilindradas());
+                    sb.append(m.getCilindradas()).append(";");
                 }
+
+                String cpfDono = (veiculoEditado.getCpfProprietario() != null) ? veiculoEditado.getCpfProprietario() : "SEM_DONO";
+                sb.append(cpfDono);
                 
                 novasLinhas.add(sb.toString());
                 achou = true;
@@ -185,6 +207,20 @@ public class VeiculoDAO implements IDAO<Veiculo> {
         return null;
     }
 
+    public List<Veiculo> listarPorCpf(String cpf) {
+        List<Veiculo> todos = listar();
+        List<Veiculo> meusVeiculos = new ArrayList<>();
+        
+        for (Veiculo v : todos) {
+            // Verifica se o veículo tem dono e se o CPF bate
+            if (v.getCpfProprietario() != null && v.getCpfProprietario().equals(cpf)) {
+                meusVeiculos.add(v);
+            }
+        }
+        return meusVeiculos;
+    }
+}
+
     /*
     Teste
     public static void main(String[] args) {
@@ -195,4 +231,3 @@ public class VeiculoDAO implements IDAO<Veiculo> {
         veiculoDAO.salvar(carro);
     }
     */
-}

@@ -9,6 +9,8 @@ import model.Carro;
 import model.Moto;
 import model.Veiculo;
 import model.enums.CategoriaCarro;
+import model.Cliente;
+import model.Sessao;
 
 public class TelaCadastroVeiculo extends JDialog {// extends JFrame significa que essa classe É uma janela do Swing.
 
@@ -161,6 +163,12 @@ public class TelaCadastroVeiculo extends JDialog {// extends JFrame significa qu
         int cc = Integer.parseInt(txtCilindradas.getText().trim());
         veiculoSalvar = new Moto(marca, modelo, placa, cc);
       }
+
+      Cliente ususarioLogado = Sessao.getUsuarioLogado();
+      if (ususarioLogado != null) {
+        veiculoSalvar.setCpfProprietario(ususarioLogado.getCpf());
+      }
+
       if (veiculoEdicao != null) {
         veiculoSalvar.setId(veiculoEdicao.getId());
         if (dao.atualizar(veiculoSalvar)) {
