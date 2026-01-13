@@ -81,16 +81,21 @@ public class TelaMeusVeiculos extends JDialog {
 
     private void atualizarLista(){
         pnlLista.removeAll();
-        List<Veiculo> veiculos= dao.listar();
-        if(veiculos.isEmpty()){
+
+        // --- MUDANÇA AQUI ---
+        // Reaproveitando a lógica de filtro, mas usando o ID que é mais seguro que CPF
+        List<Veiculo> veiculos = dao.listarPorCpf(clienteLogado.getCpf());
+        // --------------------
+
+        if (veiculos.isEmpty()) {
             JLabel lblVazio = new JLabel("Nenhum veículo cadastrado.");
             lblVazio.setBorder(new EmptyBorder(20, 20, 20, 20));
             pnlLista.add(lblVazio);
-            
-        }else{
-            for(Veiculo v:veiculos){
+
+        } else {
+            for (Veiculo v : veiculos) {
                 pnlLista.add(criarCardVeiculo(v));
-                pnlLista.add(Box.createRigidArea(new Dimension(0,10)));
+                pnlLista.add(Box.createRigidArea(new Dimension(0, 10)));
             }
         }
         pnlLista.revalidate();

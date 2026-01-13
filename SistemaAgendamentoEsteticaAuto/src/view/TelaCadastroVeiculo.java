@@ -1,7 +1,6 @@
 package view;
 
 import dao.VeiculoDAO;
-import exceptions.VeiculoException;
 
 import java.awt.*;//(Abstract Window Toolkit) é um pacote padrão do Java usado para interface gráfica.  ela contem cores e fontes entre outros
 import javax.swing.*;

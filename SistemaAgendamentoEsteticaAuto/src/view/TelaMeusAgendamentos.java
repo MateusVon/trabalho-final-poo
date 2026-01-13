@@ -11,6 +11,7 @@ import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+
 public class TelaMeusAgendamentos extends JFrame {
   private JTable tabela;
   private DefaultTableModel modeloTabela;
@@ -80,27 +81,34 @@ public class TelaMeusAgendamentos extends JFrame {
     AgendamentoDAO dao = new AgendamentoDAO();
     List<Agendamento> lista = dao.listar();
 
-    DateTimeFormatter fmData = DateTimeFormatter.ofPattern("dd/mm/yyyy");
-
     boolean encontrou = false;
 
-    for (Agendamento a : lista) {
-      if (a.getCliente() != null && a.getCliente().getCpf().equals(clienteLogado.getCpf())) {
+    // Formatador da data
+    DateTimeFormatter formatadorView = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        String dataExibicao = (a.getDataEntrega() != null) ? a.getDataEntrega() : "Sem data.";
+    for (Agendamento a : lista) {
+      // Verificação de segurança (CPF do cliente logado)
+      if (a.getCliente() != null && a.getCliente().getCpf().equals(clienteLogado.getCpf())) {
+        String dataExibicao;
+        if (a.getDataEntregaCliente() != null) {
+          // Se tem data, formata ela para String (ex: "25/01/2026")
+          dataExibicao = a.getDataEntregaCliente().format(formatadorView);
+        } else {
+          // Se for null, escreve o texto padrão
+          dataExibicao = "Sem data";
+        }
+
         Object[] linha = {
             a.getId(),
-            dataExibicao,
+            dataExibicao, // Essa variável é garantidamente uma String
             a.getHorario(),
-            (a.getPrioridade() == 1 ? "Alta" : "Normal"),
-            String.format("%.2f", a.calcularTotal())
+            (a.getPrioridade() > 10 ? "Baixa" : "Alta"),
+            String.format("R$ %.2f", a.calcularTotal())
         };
+
         modeloTabela.addRow(linha);
         encontrou = true;
       }
-    }
-    if (!encontrou) {
-      JOptionPane.showMessageDialog(this, "Nenhum agendamento encontrado.");
     }
   }
 

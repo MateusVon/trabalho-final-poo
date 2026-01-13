@@ -31,28 +31,19 @@ public class Agendamento {
     this.definirPrazos(veiculo, servico,dataEntregaCliente);
     this.servicos = new ArrayList<>();
   }
-
-  // Construtor para o DAO 
-  public Agendamento(int id, Cliente cliente, Veiculo veiculo, String servico, String dataEntrega, LocalTime horario, int prioridade) {
-    this.id = id;
-    this.cliente = cliente;
-    this.veiculo = veiculo;
-    this.horario = horario;
-    this.prioridade = prioridade;
-    this.dataEntrega = dataEntrega;
-
-    this.servicos = new ArrayList<>();
-
-    if (servico != null && !servico.isEmpty()) {
-      try {
-        model.enums.TiposDeServicos tipo = model.enums.TiposDeServicos.valueOf(servico);
-        this.servicos.add(new Servicos(tipo, prioridade));
-      } catch (Exception e) {
-        System.out.println("Erro ao converter serviço: " + servico);
-      }
-    }
-  }
  
+  // Construtor Completo (Usado pelo DAO ao ler do arquivo)
+    public Agendamento(int id, Cliente cliente, Veiculo veiculo, List<Servicos> servicos, LocalDate dataEntregaCliente, LocalTime horario, int prioridade) {
+        this.id = id;
+        this.cliente = cliente;
+        this.veiculo = veiculo;
+        this.servicos = servicos;
+        this.dataEntregaCliente = dataEntregaCliente;
+        this.horario = horario;
+        this.prioridade = prioridade;
+        // O pagamento começa null e é setado depois pelo DAO se existir
+    }
+
   public void definirPrazos(Veiculo veiculo, Servicos servico, LocalDate dataEntregaCliente) {
     LocalDate dataEntrega;
     // if(this.prazo == null) return; // Verificação para que exista prazo
@@ -153,6 +144,10 @@ public class Agendamento {
     this.dataEntrega = dataEntrega;
   }
 
+  public LocalDate getDataEntregaCliente() {
+    return dataEntregaCliente;
+  }
+
   @Override
   public String toString() {
     String nomeCliente = (cliente != null) ? cliente.getNome() : "Sem Cliente";
@@ -162,5 +157,7 @@ public class Agendamento {
     return String.format("ID: %d | Data: %s às %s | %s | %s | Total: R$ %.2f | Pag: %s",
         id, dataEntrega, horario, nomeCliente, descVeiculo, calcularTotal(), statusPag);
   }
+
+  
 
 }
