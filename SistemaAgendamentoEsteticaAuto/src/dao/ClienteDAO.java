@@ -11,10 +11,10 @@ public class ClienteDAO implements IDAO<Cliente>{
     public boolean salvar(Cliente cliente){
         int id = gerarProximoId();
         cliente.setId(id);
-        String linha = cliente.getId() + ";" + 
+        String linha = cliente.getId() + ";" +
                 cliente.getNome() + ";" +
-                cliente.getTelefone() + ";" +
-                cliente.getCpf() + ";" + 
+                cliente.getCpf() + ";" + // Ordem corrigida
+                cliente.getTelefone() + ";" + // Ordem corrigida
                 cliente.getLogin() + ";" +
                 cliente.getSenha();
         GerenciadorDeArquivos.salvar(ARQUIVO, linha);
@@ -34,12 +34,12 @@ public class ClienteDAO implements IDAO<Cliente>{
 
             int id = Integer.parseInt(dados[0]);
             String nome = dados[1];
-            String telefone = dados[2];
-            String cpf = dados[3];
+            String cpf = dados[2]; // Estava trocado no seu código original
+            String telefone = dados[3]; // Estava trocado no seu código original
             String login = dados[4];
             String senha = dados[5];
 
-            listaCliente.add(new Cliente(id, nome, telefone, cpf, login, senha));
+            listaCliente.add(new Cliente(id, nome, cpf, telefone, login, senha));
         }catch(Exception e){
             System.out.println("Erro ao ler o arquivo.");
         }
@@ -116,32 +116,15 @@ public class ClienteDAO implements IDAO<Cliente>{
   }
 
   // Método para buscar objeto específico pelo ID
-  public Cliente buscarPorId(int idBusca){
-    List<String> linhas = GerenciadorDeArquivos.ler(ARQUIVO);
-
-        for (String linha : linhas) {
-            if (linha.trim().isEmpty())
-                continue;
-
-            try {
-                String[] dados = linha.split(";");
-                int idAtual = Integer.parseInt(dados[0]);
-
-                if (idAtual == idBusca) {
-                int id = Integer.parseInt(dados[0]);
-                String nome = new String(dados[1]);
-                String cpf = new String(dados[2]);
-                String telefone = new String(dados[3]);
-                Cliente c = new Cliente(id, nome, cpf, telefone);
-                    
+  public Cliente buscarPorId(int idBusca) {
+        List<Cliente> todos = listar(); // Reaproveita o método listar que já faz o parse correto
+        for (Cliente c : todos) {
+            if (c.getId() == idBusca) {
                 return c;
-                }
-            } catch (Exception e) {
-                System.out.println("Erro nessa linha, ignorar e tentar a proxima");
             }
         }
         return null;
-  }
+    }
 
   private int gerarProximoId() {
         List<Cliente> lista = this.listar();
@@ -152,7 +135,6 @@ public class ClienteDAO implements IDAO<Cliente>{
                 maiorId = c.getId();
             }
         }
-
         return maiorId + 1;
     }
 }
