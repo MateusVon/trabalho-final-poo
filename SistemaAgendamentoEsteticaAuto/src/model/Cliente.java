@@ -12,25 +12,20 @@ public class Cliente {
   private String senha;
   private Agendamento horarioMarcado;
 
+  //Construtor padrão
   public Cliente() {
   }
 
-  public Cliente(String login, String senha) {
-    this.login = login;
-    this.senha = senha;
-  }
-
-  public Cliente(String nome, String telefone, String cpf, Veiculo veiculo, Agendamento horarioMarcado, String login,
-      String senha) throws ValidacaoException {
+  // Construtor para novo cadastro
+  public Cliente(String nome, String cpf, String telefone, String login, String senha) throws ValidacaoException{
     this.nome = nome;
     setCpf(cpf);
     setTelefone(telefone);
-    this.veiculo = veiculo;
-    this.horarioMarcado = horarioMarcado;
     this.login = login;
     this.senha = senha;
   }
 
+  // Construtor completo para o DAO
   public Cliente(int id, String nome, String cpf, String telefone, String login, String senha) throws ValidacaoException {
     this.id = id;
     this.nome = nome;
@@ -40,27 +35,9 @@ public class Cliente {
     this.senha = senha;
   }
 
-  public Cliente(String nome, String cpf, String telefone, String login, String senha) throws ValidacaoException {
-    this.nome = nome;
-    setCpf(cpf);
-    setTelefone(telefone);
-    this.login = login;
-    this.senha = senha;
-  }
-
-  public Cliente(int id, String nome, String cpf, String telefone) throws ValidacaoException {
-    this.id = id;
-    this.nome = nome;
-    setCpf(cpf);
-    setTelefone(telefone);
-  }
-
   // Getters e Setters
 
-  public String getNome() {
-    return this.nome;
-  }
-
+  public String getNome() {return this.nome;}
   public void setNome(String nome) {
     if (nome == null) {
       throw new IllegalArgumentException("O nome de usuário não pode ser vazio");
@@ -68,10 +45,7 @@ public class Cliente {
     this.nome = nome;
   }
 
-  public String getTelefone() {
-    return this.telefone;
-  }
-
+  public String getTelefone() {return this.telefone;}
   public void setTelefone(String telefone) throws ValidacaoException {
     try {
       validarTelefone(telefone);
@@ -79,13 +53,9 @@ public class Cliente {
     } catch (ValidacaoException e) {
       System.out.println("Erro! O espaço destinado para o número de telefone não foi preenchido.");
     }
-
   }
 
-  public String getCpf() {
-    return this.cpf;
-  }
-
+  public String getCpf() {return this.cpf;}
   public void setCpf(String cpf) throws ValidacaoException {
     try{
       validarCPF(cpf);
@@ -93,58 +63,24 @@ public class Cliente {
     }catch(ValidacaoException t){
         System.out.println("Erro! O campo do CPF deve ser preenchido corretamente para efetuar o cadastro.");
     }
-
   }
 
-  public Veiculo getVeiculo() {
-    return this.veiculo;
-  }
+  public Veiculo getVeiculo() {return this.veiculo;}
+  public void setVeiculo(Veiculo veiculo) {this.veiculo = veiculo;}
 
-  public void setVeiculo(Veiculo veiculo) {
-    this.veiculo = veiculo;
-  }
+  public int getId() {return id;}
+  public void setId(int id) {this.id = id;}
 
-  public int getId() {
-    return id;
-  }
+  public String getLogin() {return login;}
+  public void setLogin(String login) {this.login = login;}
 
-  public void setId(int id) {
-    this.id = id;
-  }
+  public String getSenha() {return senha;}
+  public void setSenha(String senha) {this.senha = senha;}
 
-  public String getLogin() {
-    return login;
-  }
-
-  public void setLogin(String login) {
-    this.login = login;
-  }
-  /*
-   * public void setVeiculo(Veiculo v) {
-   * this.veiculo = v;
-   * }
-   */
-
-  // Getters
-
-  public String getSenha() {
-    return senha;
-  }
-
-  public void setSenha(String senha) {
-    this.senha = senha;
-  }
-
-  public Agendamento getHorarioMarcado() {
-    return horarioMarcado;
-  }
-
-  public void setHorarioMarcado(Agendamento horarioMarcado) {
-    this.horarioMarcado = horarioMarcado;
-  }
+  public Agendamento getHorarioMarcado() {return horarioMarcado;}
+  public void setHorarioMarcado(Agendamento horarioMarcado) {this.horarioMarcado = horarioMarcado;}
 
   // METODOS para verificar CPF e TELEFONE
-
   private void validarCPF(String cpf) throws ValidacaoException {
     if (cpf == null) {
       throw new ValidacaoException("CPF não foi preenchido! Campo obrigatório.");
@@ -177,12 +113,4 @@ public class Cliente {
         "\nTelefone: " + this.telefone;
   }
 
-  public static void main(String[] args) {
-    /*
-     * Veiculo chev = new Carro("CHevrolet", "Chevette", "GWO-5557", 2);
-     * Cliente c1 = new Cliente("Jorge", "31 9 9877-6704", "149.899.356-75", chev);
-     * System.out.println(c1.toString());
-     * 
-     */
-  }
 }
