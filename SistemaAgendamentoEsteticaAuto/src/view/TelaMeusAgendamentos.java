@@ -70,7 +70,7 @@ public class TelaMeusAgendamentos extends JFrame {
     btnCancelar.addActionListener(e -> cancelarAgendamento());
     add(btnCancelar);
 
-    // 2. Botão Pagar (NOVO)
+    // 2. Botão Pagar 
     btnPagar = new JButton("Pagar Agora ($)");
     btnPagar.setBounds(210, 390, 150, 35);
     btnPagar.setBackground(Color.decode("#27ae60")); // Verde Sucesso
@@ -97,9 +97,10 @@ public class TelaMeusAgendamentos extends JFrame {
 
     // Formatador da data
     DateTimeFormatter formatadorView = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+   
 
     for (Agendamento a : lista) {
-      int cont =0;
+       
       // Verificação de segurança (CPF do cliente logado)
       if (a.getCliente() != null && a.getCliente().getCpf().equals(clienteLogado.getCpf())) {
         String dataExibicao;
@@ -113,7 +114,7 @@ public class TelaMeusAgendamentos extends JFrame {
 
         Object[] linha = {
             a.getId(),
-            a.getServicos().get(cont).getTipos(),
+            a.getServicos().get(0).getTipos(),
             dataExibicao, // Essa variável é garantidamente uma String
             a.getHorario(),
             a.getPagamento().getStatus(),
@@ -123,9 +124,10 @@ public class TelaMeusAgendamentos extends JFrame {
         modeloTabela.addRow(linha);
         encontrou = true;
       }
-      cont++;
+      
     }
   }
+
 
   private void cancelarAgendamento() {
     int linhaSelecionada = tabela.getSelectedRow();
@@ -142,7 +144,7 @@ public class TelaMeusAgendamentos extends JFrame {
         "Confirmar Canelamento",
         JOptionPane.YES_NO_OPTION);
 
-    if (confirmacao == JOptionPane.YES_NO_OPTION) {
+    if (confirmacao == JOptionPane.YES_OPTION) {
       AgendamentoDAO dao = new AgendamentoDAO();
       if (dao.deletar(idAgendamento)) {
         JOptionPane.showMessageDialog(this, "Agendamento cancelado com sucesso!");
@@ -161,18 +163,19 @@ public class TelaMeusAgendamentos extends JFrame {
       return;
     }
 
-    // Pega o ID da coluna 0 (Por isso a correção no carregarTabela foi importante)
+    // Pega o ID da coluna 0 
     int idAgendamento = (int) tabela.getValueAt(linhaSelecionada, 0);
 
     // Busca o agendamento real no banco
     AgendamentoDAO dao = new AgendamentoDAO();
-    Agendamento ag = dao.buscaPorId(idAgendamento); // <--- Atenção: método é buscaPorId ou buscarPorId no seu DAO?
+    Agendamento ag = dao.buscaPorId(idAgendamento); 
 
-    if (ag == null)
-      return;
+    if (ag == null){
+       return;
+    }
 
     // Verifica se já está pago
-    // OBS: Ajuste "PAGO" conforme você escreveu no seu Enum ou String
+  
     if (ag.getPagamento() != null && "PAGO".equalsIgnoreCase(String.valueOf(ag.getPagamento().getStatus()))) {
       JOptionPane.showMessageDialog(this, "Este agendamento já está pago! Obrigado.");
       return;

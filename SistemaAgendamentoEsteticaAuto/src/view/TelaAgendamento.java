@@ -50,7 +50,7 @@ public class TelaAgendamento extends JFrame {
     lblTitulo.setBounds(130, 20, 200, 30);
     add(lblTitulo);
 
-    // --- SELEÇÃO DE VEÍCULO ---
+    // Seleção do Veículo
     add(criarLabel("Selecione o Veículo:", 40, 60));
 
     cbVeiculos = new JComboBox<>();
@@ -67,7 +67,7 @@ public class TelaAgendamento extends JFrame {
       atualizarPrecoEstimado();
     });
 
-    // --- SELEÇÃO DE SERVIÇO ---
+    // Seleção do serviço
     add(criarLabel("Selecione o Serviço:", 40, 130));
     cbServicos = new JComboBox<>();
     cbServicos.setBackground(Color.WHITE);
@@ -139,7 +139,7 @@ public class TelaAgendamento extends JFrame {
     setVisible(true);
   }
 
-  // --- MÉTODOS AUXILIARES ---
+  // Métodos auxiliares
 
   private void carregarMeusVeiculos() {
     VeiculoDAO dao = new VeiculoDAO();

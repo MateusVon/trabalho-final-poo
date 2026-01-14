@@ -128,8 +128,6 @@ public class AgendamentoDAO {
         int idAtual = Integer.parseInt(dados[0]);
 
         if (idAtual == agendamentoEditado.getId()) {
-          // --- CORREÇÃO CRÍTICA ---
-          // A ordem aqui PRECISA ser igualzinha ao método salvar()
 
           int idPagamento = (agendamentoEditado.getPagamento() != null) ? agendamentoEditado.getPagamento().getId()
               : -1;
