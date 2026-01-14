@@ -81,11 +81,8 @@ public class TelaMeusVeiculos extends JDialog {
   private void atualizarLista() {
     pnlLista.removeAll();
 
-    // --- MUDANÇA AQUI ---
-    // Reaproveitando a lógica de filtro, mas usando o ID que é mais seguro que CPF
     List<Veiculo> veiculos = dao.listarPorCpf(clienteLogado.getCpf());
-    // --------------------
-
+  
     if (veiculos.isEmpty()) {
       JLabel lblVazio = new JLabel("Nenhum veículo cadastrado.");
       lblVazio.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -106,7 +103,7 @@ public class TelaMeusVeiculos extends JDialog {
     JPanel card = new JPanel(new BorderLayout());
     card.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1), // Use createLineBorder para cor e espessura
-        new EmptyBorder(10, 10, 10, 10) // São 4 números (top, left, bottom, right) e SEM ponto e vírgula aqui
+        new EmptyBorder(10, 10, 10, 10) 
     ));
     card.setBackground(Color.WHITE);
     card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
