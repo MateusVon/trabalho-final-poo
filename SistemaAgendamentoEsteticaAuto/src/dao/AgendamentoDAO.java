@@ -7,7 +7,6 @@ import model.Servicos;
 import model.Veiculo;
 import model.enums.TiposDeServicos;
 
-
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -28,7 +27,7 @@ public class AgendamentoDAO {
       return false;
     }
 
-    if(agendamento.getId() == 0){
+    if (agendamento.getId() == 0) {
       agendamento.setId(gerarProximoId());
     }
 

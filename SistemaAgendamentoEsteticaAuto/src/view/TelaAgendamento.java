@@ -14,8 +14,8 @@ import model.enums.FormaPagamento;
 import model.enums.TiposDeServicos;
 
 public class TelaAgendamento extends JFrame {
-  
-  private JComboBox<Veiculo> cbVeiculos; 
+
+  private JComboBox<Veiculo> cbVeiculos;
   private JComboBox<TiposDeServicos> cbServicos;
   private JComboBox<FormaPagamento> cbPagamento;
   private JFormattedTextField txtData;
@@ -36,7 +36,7 @@ public class TelaAgendamento extends JFrame {
       return;
     }
 
-    setSize(450, 560); 
+    setSize(450, 560);
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setLocationRelativeTo(null);
     setLayout(null);
@@ -52,7 +52,7 @@ public class TelaAgendamento extends JFrame {
 
     // --- SELEÇÃO DE VEÍCULO ---
     add(criarLabel("Selecione o Veículo:", 40, 60));
-    
+
     cbVeiculos = new JComboBox<>();
     cbVeiculos.setBounds(40, 85, 350, 30);
     cbVeiculos.setBackground(Color.WHITE);
@@ -63,8 +63,8 @@ public class TelaAgendamento extends JFrame {
 
     // Quando trocar de carro, atualiza os serviços compatíveis e o preço
     cbVeiculos.addActionListener(e -> {
-        atualizarServicosCompativeis();
-        atualizarPrecoEstimado();
+      atualizarServicosCompativeis();
+      atualizarPrecoEstimado();
     });
 
     // --- SELEÇÃO DE SERVIÇO ---
@@ -97,7 +97,7 @@ public class TelaAgendamento extends JFrame {
     add(criarLabel("Horário:", 230, 220));
     try {
       MaskFormatter maskHora = new MaskFormatter("##:##");
-      maskHora.setPlaceholderCharacter('_'); 
+      maskHora.setPlaceholderCharacter('_');
       txtHora = new JFormattedTextField(maskHora);
     } catch (ParseException e) {
       txtHora = new JFormattedTextField();
@@ -114,7 +114,7 @@ public class TelaAgendamento extends JFrame {
 
     // Botões
     btnAgendar = new JButton("CONFIRMAR AGENDAMENTO");
-    btnAgendar.setBounds(40, 370, 350, 45); 
+    btnAgendar.setBounds(40, 370, 350, 45);
     btnAgendar.setBackground(Color.decode("#2c3e50"));
     btnAgendar.setForeground(Color.WHITE);
     btnAgendar.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -124,7 +124,7 @@ public class TelaAgendamento extends JFrame {
     add(btnAgendar);
 
     btnVoltar = new JButton("Cancelar");
-    btnVoltar.setBounds(150, 430, 130, 30); 
+    btnVoltar.setBounds(150, 430, 130, 30);
     btnVoltar.setBackground(Color.decode("#F5f5f5"));
     btnVoltar.setBorder(null);
     btnVoltar.setForeground(Color.GRAY);
@@ -135,46 +135,47 @@ public class TelaAgendamento extends JFrame {
     // Carrega os dados iniciais
     atualizarServicosCompativeis();
     atualizarPrecoEstimado();
-    
+
     setVisible(true);
   }
 
   // --- MÉTODOS AUXILIARES ---
 
   private void carregarMeusVeiculos() {
-      VeiculoDAO dao = new VeiculoDAO();
-      List<Veiculo> lista = dao.listarPorCpf(clienteLogado.getCpf());
-      
-      cbVeiculos.removeAllItems();
-      
-      if (lista.isEmpty()) {
-          JOptionPane.showMessageDialog(this, "Você não tem veículos cadastrados!\nCadastre um veículo primeiro.");
-          dispose(); // Fecha a tela se não tiver carro
-          return;
-      }
+    VeiculoDAO dao = new VeiculoDAO();
+    List<Veiculo> lista = dao.listarPorCpf(clienteLogado.getCpf());
 
-      for (Veiculo v : lista) {
-          cbVeiculos.addItem(v);
-      }
+    cbVeiculos.removeAllItems();
+
+    if (lista.isEmpty()) {
+      JOptionPane.showMessageDialog(this, "Você não tem veículos cadastrados!\nCadastre um veículo primeiro.");
+      dispose(); // Fecha a tela se não tiver carro
+      return;
+    }
+
+    for (Veiculo v : lista) {
+      cbVeiculos.addItem(v);
+    }
   }
 
   private void atualizarServicosCompativeis() {
-      Veiculo veiculoSelecionado = (Veiculo) cbVeiculos.getSelectedItem();
-      if (veiculoSelecionado == null) return;
+    Veiculo veiculoSelecionado = (Veiculo) cbVeiculos.getSelectedItem();
+    if (veiculoSelecionado == null)
+      return;
 
-      cbServicos.removeAllItems();
+    cbServicos.removeAllItems();
 
-      for (TiposDeServicos tipo : TiposDeServicos.values()) {
-        // Filtro para Transporte
-        if (tipo.isExclusivoTransporte() && !(veiculoSelecionado instanceof VeiculosTransporte)) {
-          continue;
-        }
-        // Filtro para Moto
-        if (tipo == TiposDeServicos.INSULFILM && (veiculoSelecionado instanceof Moto)) {
-          continue;
-        }
-        cbServicos.addItem(tipo);
+    for (TiposDeServicos tipo : TiposDeServicos.values()) {
+      // Filtro para Transporte
+      if (tipo.isExclusivoTransporte() && !(veiculoSelecionado instanceof VeiculosTransporte)) {
+        continue;
       }
+      // Filtro para Moto
+      if (tipo == TiposDeServicos.INSULFILM && (veiculoSelecionado instanceof Moto)) {
+        continue;
+      }
+      cbServicos.addItem(tipo);
+    }
   }
 
   private void atualizarPrecoEstimado() {
@@ -182,8 +183,8 @@ public class TelaAgendamento extends JFrame {
     TiposDeServicos tipoSelecionado = (TiposDeServicos) cbServicos.getSelectedItem();
 
     if (veiculoSelecionado == null || tipoSelecionado == null) {
-        lblPrecoEstimado.setText("Valor Estimado: R$ 0,00");
-        return;
+      lblPrecoEstimado.setText("Valor Estimado: R$ 0,00");
+      return;
     }
 
     double percentual = veiculoSelecionado.calcularPrecoEspecifico();

@@ -65,11 +65,11 @@ public abstract class Veiculo implements DefinicoesServicos {
     this.placa = placa;
   }
 
-  public String getCpfProprietario(){
+  public String getCpfProprietario() {
     return cpfProprietario;
   }
 
-  public void setCpfProprietario(String cpfProprietario){
+  public void setCpfProprietario(String cpfProprietario) {
     this.cpfProprietario = cpfProprietario;
   }
 

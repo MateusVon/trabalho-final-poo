@@ -12,12 +12,12 @@ public class Cliente {
   private String senha;
   private Agendamento horarioMarcado;
 
-  //Construtor padrão
+  // Construtor padrão
   public Cliente() {
   }
 
   // Construtor para novo cadastro
-  public Cliente(String nome, String cpf, String telefone, String login, String senha) throws ValidacaoException{
+  public Cliente(String nome, String cpf, String telefone, String login, String senha) throws ValidacaoException {
     this.nome = nome;
     setCpf(cpf);
     setTelefone(telefone);
@@ -26,7 +26,8 @@ public class Cliente {
   }
 
   // Construtor completo para o DAO
-  public Cliente(int id, String nome, String cpf, String telefone, String login, String senha) throws ValidacaoException {
+  public Cliente(int id, String nome, String cpf, String telefone, String login, String senha)
+      throws ValidacaoException {
     this.id = id;
     this.nome = nome;
     setCpf(cpf);
@@ -37,7 +38,10 @@ public class Cliente {
 
   // Getters e Setters
 
-  public String getNome() {return this.nome;}
+  public String getNome() {
+    return this.nome;
+  }
+
   public void setNome(String nome) {
     if (nome == null) {
       throw new IllegalArgumentException("O nome de usuário não pode ser vazio");
@@ -45,7 +49,10 @@ public class Cliente {
     this.nome = nome;
   }
 
-  public String getTelefone() {return this.telefone;}
+  public String getTelefone() {
+    return this.telefone;
+  }
+
   public void setTelefone(String telefone) throws ValidacaoException {
     try {
       validarTelefone(telefone);
@@ -55,30 +62,58 @@ public class Cliente {
     }
   }
 
-  public String getCpf() {return this.cpf;}
+  public String getCpf() {
+    return this.cpf;
+  }
+
   public void setCpf(String cpf) throws ValidacaoException {
-    try{
+    try {
       validarCPF(cpf);
       this.cpf = cpf;
-    }catch(ValidacaoException t){
-        System.out.println("Erro! O campo do CPF deve ser preenchido corretamente para efetuar o cadastro.");
+    } catch (ValidacaoException t) {
+      System.out.println("Erro! O campo do CPF deve ser preenchido corretamente para efetuar o cadastro.");
     }
   }
 
-  public Veiculo getVeiculo() {return this.veiculo;}
-  public void setVeiculo(Veiculo veiculo) {this.veiculo = veiculo;}
+  public Veiculo getVeiculo() {
+    return this.veiculo;
+  }
 
-  public int getId() {return id;}
-  public void setId(int id) {this.id = id;}
+  public void setVeiculo(Veiculo veiculo) {
+    this.veiculo = veiculo;
+  }
 
-  public String getLogin() {return login;}
-  public void setLogin(String login) {this.login = login;}
+  public int getId() {
+    return id;
+  }
 
-  public String getSenha() {return senha;}
-  public void setSenha(String senha) {this.senha = senha;}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-  public Agendamento getHorarioMarcado() {return horarioMarcado;}
-  public void setHorarioMarcado(Agendamento horarioMarcado) {this.horarioMarcado = horarioMarcado;}
+  public String getLogin() {
+    return login;
+  }
+
+  public void setLogin(String login) {
+    this.login = login;
+  }
+
+  public String getSenha() {
+    return senha;
+  }
+
+  public void setSenha(String senha) {
+    this.senha = senha;
+  }
+
+  public Agendamento getHorarioMarcado() {
+    return horarioMarcado;
+  }
+
+  public void setHorarioMarcado(Agendamento horarioMarcado) {
+    this.horarioMarcado = horarioMarcado;
+  }
 
   // METODOS para verificar CPF e TELEFONE
   private void validarCPF(String cpf) throws ValidacaoException {
