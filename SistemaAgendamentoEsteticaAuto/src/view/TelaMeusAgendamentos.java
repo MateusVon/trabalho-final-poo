@@ -1,19 +1,15 @@
 package view;
 
 import dao.AgendamentoDAO;
-import dao.PagamentoDAO;
 import model.Agendamento;
 import model.Cliente;
-import model.Pagamento;
 import model.Sessao;
-import model.enums.StatusPagamento;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 
 public class TelaMeusAgendamentos extends JFrame {
   private JTable tabela;
@@ -179,34 +175,12 @@ public class TelaMeusAgendamentos extends JFrame {
       return;
     }
 
-    // Simulação de Pagamento
-    int confirmacao = JOptionPane.showConfirmDialog(this,
-        "Valor Total: R$ " + String.format("%.2f", ag.calcularTotal()) + "\nDeseja confirmar o pagamento via App?",
-        "Pagamento Online", JOptionPane.YES_NO_OPTION);
+    TelaSimulacaoPagamento telaPag = new TelaSimulacaoPagamento(this, ag);
+    telaPag.setVisible(true); // O código para aqui e espera o usuário fechar a tela (porque é modal)
 
-    if (confirmacao == JOptionPane.YES_NO_OPTION) {
-      try {
-        // Atualiza o status do objeto Pagamento
-        Pagamento pag = ag.getPagamento();
-        if (pag != null) {
-          pag.setStatus(StatusPagamento.PAGO);
-
-          // Salva a alteração no banco de Pagamentos
-          PagamentoDAO pagDAO = new PagamentoDAO();
-          pagDAO.atualizar(pag); 
-
-          JOptionPane.showMessageDialog(this, "Pagamento confirmado com sucesso!");
-
-          // Recarrega a tabela para ficar verde/atualizado
-          carregarTabela();
-        } else {
-          JOptionPane.showMessageDialog(this, "Erro: Não há registro financeiro para este agendamento.");
-        }
-
-      } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Erro ao processar pagamento: " + e.getMessage());
-      }
+    // Quando a tela fechar, verificamos se ele pagou
+    if (telaPag.isPagamentoRealizado()) {
+      carregarTabela(); // Atualiza a tabela para ficar "PAGO"
     }
   }
 }
